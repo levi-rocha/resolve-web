@@ -33,15 +33,16 @@
     "rxjs": "^5.4.0",
     "systemjs": "0.20.12",
     "zone.js": "^0.8.11",
-    "typings": "^2.1.1"
-  },
-  "devDependencies": {
+    "typings": "^2.1.1",
     "canonical-path": "0.0.2",
     "concurrently": "^3.4.0",
     "http-server": "^0.10.0",
     "lite-server": "^2.3.0",
     "node-sass": "^4.5.3",
     "typescript": "^2.3.3"
+  },
+  "devDependencies": {
+    
   },
   "repository": {}
 }
