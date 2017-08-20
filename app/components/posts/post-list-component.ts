@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Post} from "../../models/post";
 import {PostService} from "../../services/post-service";
+import {AppComponent} from "../../app.component";
 
 @Component({
 	selector: 'post-list',
@@ -23,6 +24,10 @@ export class PostListComponent implements OnInit {
 
 	constructor(private postService: PostService) {
 	}
+
+    isLogged(): boolean {
+        return AppComponent.isLogged();
+    }
 
 	ngOnInit() {
 	    this.criteria = PostService.LATEST;

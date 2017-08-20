@@ -11,12 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var post_service_1 = require("../../services/post-service");
+var app_component_1 = require("../../app.component");
 var PostListComponent = (function () {
     function PostListComponent(postService) {
         this.postService = postService;
         this.page = 0;
         this.pageSize = 5;
     }
+    PostListComponent.prototype.isLogged = function () {
+        return app_component_1.AppComponent.isLogged();
+    };
     PostListComponent.prototype.ngOnInit = function () {
         this.criteria = post_service_1.PostService.LATEST;
         this.searchInput = "";
