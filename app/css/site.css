@@ -250,5 +250,5 @@ md-card-content h4 {
 }
 
 .mat-card-header {
-	display: inline;
+	display: inline !important;
 }

@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node-sass app/sass -o app/css && tsc && concurrently \"tsc -w\" \"node server.js\" ",
+    "lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
