@@ -1,0 +1,97 @@
+<div class="post-list">
+    <md-card>
+        <md-card-header>
+            <md-card-title><h3>{{ post.title }}</h3></md-card-title>
+        </md-card-header>
+        <md-card-content>{{ post.content }}</md-card-content>
+        <md-card-actions>
+            <div class="post-actions post-likes-container" [ngSwitch]="userHasVoted()">
+                <i *ngSwitchCase="false" class="material-icons md-18" (click)="voteOnPost()">favorite_border</i>
+                <i *ngSwitchCase="true" class="material-icons md-18 filled-icon">favorite</i>
+                <div>{{getVotes()}}</div>
+            </div>
+            <div class="post-actions post-details">
+                <i class="material-icons md-18">record_voice_over</i>
+                <div>{{post.authorUsername}}</div>
+                <i class="material-icons md-18 filled-icon" *ngIf="isLogged()" (click)="toggleShowFlag()">flag</i>
+            </div>
+        </md-card-actions>
+        <md-card-content>
+            <md-list *ngIf="showFlag">
+            <md-list-item class="input-area" >
+                <div class="row full-width input-section" >
+                    <div class="col-xs-9 col-md-11 no-padding" >
+                        <md-input-container class="full-width">
+                        <textarea mdInput name="content" [(ngModel)]="newFlag" placeholder="Descreva o problema"
+                                  rows="3" class="col-xs-11"></textarea>
+                        </md-input-container>
+                    </div>
+                    <div class="col-xs-3 col-md-1">
+                        <button md-raised-button color="primary" (click)="flagPost()">
+                            <i class="material-icons md-18">send</i>
+                        </button>
+                    </div>
+                </div>
+            </md-list-item>
+            </md-list>
+            <div class="section"[ngSwitch]="showSolutions" (click)="toggleShowSolutions()">
+                <label>Solucoes</label>
+                <i class="material-icons md-18 expand" *ngSwitchCase="false">expand_more</i>
+                <i class="material-icons md-18 expand" *ngSwitchCase="true">expand_less</i>
+            </div>
+            <md-list *ngIf="showSolutions">
+                <md-divider></md-divider>
+                <div *ngFor="let solution of post.solutions">
+                    <md-list-item>
+                        <div>{{solution.content}}</div>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                </div>
+                <md-list-item *ngIf="userCanPostSolution()" class="input-area">
+                    <div class="row full-width input-section">
+                        <div class="col-xs-9 col-md-11 no-padding" style="margin-top: 30px;">
+                            <md-input-container class="full-width">
+                        <textarea mdInput name="content" [(ngModel)]="newSolution" placeholder="Insira uma solucao"
+                                  rows="3" class="col-xs-11"></textarea>
+                            </md-input-container>
+                        </div>
+                        <div class="col-xs-3 col-md-1" style="margin-top: 30px;">
+                            <button md-raised-button color="primary" (click)="submitNewSolution()">
+                                <i class="material-icons md-18">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </md-list-item>
+            </md-list>
+            <div class="section" [ngSwitch]="showComments" (click)="toggleShowComments()">
+                <label >Comentarios</label>
+                <i class="material-icons md-18 expand" *ngSwitchCase="false">expand_more</i>
+                <i class="material-icons md-18 expand" *ngSwitchCase="true">expand_less</i>
+            </div>
+            <md-list *ngIf="showComments">
+                <md-divider></md-divider>
+                <div *ngFor="let comment of post.comments">
+                    <md-list-item>
+                        <div>{{comment.content}}</div>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                </div>
+                <md-list-item *ngIf="isLogged()" class="input-area">
+                    <div class="row full-width input-section">
+                        <div class="col-xs-9 col-md-11 no-padding" style="margin-top: 30px;">
+                            <md-input-container class="full-width">
+                        <textarea mdInput name="content" [(ngModel)]="newComment" placeholder="Insira um comentário"
+                                  rows="3" class="col-xs-11"></textarea>
+                            </md-input-container>
+                        </div>
+                        <div class="col-xs-3 col-md-1" style="margin-top: 30px;">
+                            <button md-raised-button color="primary" (click)="submitNewComment()">
+                                <i class="material-icons md-18">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</div>

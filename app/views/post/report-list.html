@@ -1,0 +1,18 @@
+<div class="report-list">
+    <md-card *ngFor="let report of reports">
+        <md-card-header>
+            <md-card-title><h3>{{ report.description }}</h3></md-card-title>
+        </md-card-header>
+        <md-card-content>
+            <h2>{{ report.post.title }}</h2>
+            {{ report.post.contentPreview }}
+        </md-card-content>
+        <md-card-actions>
+            <div class="full-width post-actions post-likes-container">
+                <div class="remove-action" (click)="removePost(report.post.id)">
+                    <i class="material-icons md-18 filled-icon">delete</i>
+                </div>
+            </div>
+        </md-card-actions>
+    </md-card>
+</div>

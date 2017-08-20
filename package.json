@@ -1,0 +1,47 @@
+{
+  "name": "resolve-web",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start": "node-sass app/sass -o app/css && tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "lite": "lite-server",
+    "postinstall": "typings install",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings",
+    "build-css": "node-sass app/sass -o app/css"
+  },
+  "keywords": [],
+  "author": "Levi Rocha",
+  "license": "ISC",
+  "dependencies": {
+    "@angular/animations": "^4.2.2",
+    "@angular/common": "^4.2.2",
+    "@angular/compiler": "4.2.2",
+    "@angular/core": "^4.2.2",
+    "@angular/forms": "4.2.2",
+    "@angular/http": "^4.2.2",
+    "@angular/material": "^2.0.0-beta.5",
+    "@angular/platform-browser": "4.2.2",
+    "@angular/platform-browser-dynamic": "4.2.2",
+    "@angular/router": "4.2.2",
+    "@angular/upgrade": "4.2.2",
+    "bootstrap": "^3.3.7",
+    "core-js": "^2.4.1",
+    "jquery": "^3.2.1",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.4.0",
+    "systemjs": "0.20.12",
+    "zone.js": "^0.8.11"
+  },
+  "devDependencies": {
+    "canonical-path": "0.0.2",
+    "concurrently": "^3.4.0",
+    "http-server": "^0.10.0",
+    "lite-server": "^2.3.0",
+    "node-sass": "^4.5.3",
+    "typescript": "^2.3.3",
+    "typings": "^2.1.1"
+  },
+  "repository": {}
+}

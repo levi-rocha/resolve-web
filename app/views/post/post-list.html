@@ -1,0 +1,50 @@
+<div class="post-list">
+    <md-tab-group (selectChange)="onTabChange($event)">
+        <md-tab label="Latest">
+        </md-tab>
+        <md-tab label="Popular">
+        </md-tab>
+    </md-tab-group>
+    <div class="search-area">
+        <div class="col-xs-9 col-md-11 no-padding">
+            <md-input-container class="full-width">
+                <textarea mdInput name="content" [(ngModel)]="searchInput" placeholder="Buscar (4 ou mais caracteres)"
+                          rows="1" class="col-xs-11"></textarea>
+            </md-input-container>
+        </div>
+        <div class="col-xs-2 col-md-1">
+            <button md-raised-button color="primary" (click)="onSearch()">
+                <i class="material-icons md-18">search</i>
+            </button>
+        </div>
+        </div>
+    <new-post></new-post>
+    <md-card *ngFor="let post of posts" [routerLink]="['/post/'+post.id]">
+        <md-card-header>
+                <md-card-title><h3>{{ post.title }}</h3></md-card-title>
+        </md-card-header>
+        <md-card-content>{{ post.contentPreview }}</md-card-content>
+        <md-card-actions>
+            <div class="post-actions post-likes-container">
+                <i class="material-icons md-18">thumb_up</i>
+                <div>{{post.voteCount}}</div>
+            </div>
+            <div class="post-actions post-details">
+                <i class="material-icons md-18">record_voice_over</i>
+                <div>{{post.authorUsername}}</div>
+            </div>
+        </md-card-actions>
+    </md-card>
+    <div class="page-navigation">
+        <span class="page-navigation-left" [hidden]="page == 0">
+            <i class="material-icons" (click)="firstPage()">first_page</i>
+            <i class="material-icons" (click)="previousPage()">chevron_left</i>
+        </span>
+
+        <span class="page-navigation-center">{{page*pageSize + " - " + pageSize*(page+1)}}</span>
+
+        <span class="page-navigation-right" [hidden]="getPostsLength() < pageSize">
+            <i class="material-icons" (click)="nextPage()">chevron_right</i>
+        </span>
+    </div>
+</div>

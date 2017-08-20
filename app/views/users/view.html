@@ -1,0 +1,19 @@
+<h1>View User</h1>
+
+<div>
+    <table class="table table-striped">
+        <tr>
+            <th>Username</th>
+			<td>{{ user.username }}</td>
+		</tr>
+		<tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+        </tr>
+    </table>
+	<div class="text-center">
+		<a class="btn btn-default" [routerLink]="['/user-list']">
+			Back
+		</a>
+	</div>
+</div>
