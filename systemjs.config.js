@@ -10,6 +10,7 @@
         '@angular': 'node_modules/@angular','@angular/animations': 'node_modules/@angular/animations/bundles/animations.umd.js',
         '@angular/animations/browser': 'node_modules/@angular/animations/bundles/animations-browser.umd.js',
         '@angular/platform-browser/animations': 'node_modules/@angular/platform-browser/bundles/platform-browser-animations.umd.js',
+	'@angular/cdk': 'node_modules/@angular/cdk/bundles/cdk.umd.js',
         '@angular/material': 'node_modules/@angular/material/bundles/material.umd.js',
         'rxjs': 'node_modules/rxjs'
     };
