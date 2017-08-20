@@ -248,3 +248,7 @@ md-card-content h4 {
     align-items: center;
     justify-content: space-between;
 }
+
+.mat-card-header {
+	display: inline;
+}
