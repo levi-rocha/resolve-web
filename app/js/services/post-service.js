@@ -87,7 +87,7 @@ var PostService = (function () {
     return PostService;
 }());
 PostService.POPULAR = "votes";
-PostService.LATEST = "date";
+PostService.LATEST = "date,desc";
 PostService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])

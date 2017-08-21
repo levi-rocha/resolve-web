@@ -15,7 +15,7 @@ export class PostService {
     reportsUrl: string = "https://resolve-rest.herokuapp.com/reports";
 
     public static POPULAR: string = "votes";
-    public static LATEST: string = "date";
+    public static LATEST: string = "date,desc";
 
     constructor(private http: Http) {
     }
