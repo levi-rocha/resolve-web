@@ -1,5 +1,5 @@
 <div class="report-list">
-    <md-card *ngFor="let report of reports">
+    <md-card *ngFor="let report of reports" [routerLink]="['/post/'+report.post.id]">
         <md-card-header>
             <md-card-title><h3>{{ report.description }}</h3></md-card-title>
         </md-card-header>
