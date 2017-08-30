@@ -8,6 +8,10 @@
             {{ report.post.contentPreview }}
         </md-card-content>
         <md-card-actions>
+            <div class="post-actions post-action-details">
+                <i class="material-icons md-18">record_voice_over</i>
+                <div>{{report.post.authorUsername}}</div>
+            </div>
             <div class="full-width post-actions post-likes-container">
                 <div class="remove-action" (click)="removePost(report.post.id)">
                     <i class="material-icons md-18 filled-icon">delete</i>
