@@ -26,9 +26,9 @@ div.report-list md-card {
     margin-bottom: 18px;
 }
 
-.remove-action {
+.remove-action-list {
     position: absolute;
-    right: 12px;
+    left: 72px;
     bottom: 8px;
 }
 
