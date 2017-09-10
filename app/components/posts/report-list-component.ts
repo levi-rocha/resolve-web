@@ -27,7 +27,7 @@ export class ReportListComponent implements OnInit {
         );
     }
 
-    removePost(id: number) {
+    removeReportPost(id: number) {
         this.postService.remove(id).subscribe(
             data => {
                 this.snackBar.open("Post removido com sucesso", "OK");

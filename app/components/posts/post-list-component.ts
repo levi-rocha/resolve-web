@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Post} from "../../models/post";
 import {PostService} from "../../services/post-service";
 import {AppComponent} from "../../app.component";
+import {MdSnackBar} from "@angular/material";
 
 @Component({
 	selector: 'post-list',
@@ -22,7 +23,8 @@ export class PostListComponent implements OnInit {
 
 	private searchInput: string;
 
-	constructor(private postService: PostService) {
+	constructor(private postService: PostService,
+                public snackBar: MdSnackBar) {
 	}
 
     isLogged(): boolean {
@@ -77,6 +79,21 @@ export class PostListComponent implements OnInit {
     nextPage() {
         this.page++;
         this.refreshList();
+    }
+    removePost(id: number) {
+	    console.log(`ID`, id);
+        this.postService.remove(id).subscribe(
+            data => {
+                this.snackBar.open("Post removido com sucesso", "OK");
+                this.refreshList();
+            },
+            error => this.snackBar.open("Erro: " + error._body, "OK")
+        );debugger;
+    }
+    userIsAdmin(): boolean {
+        if (sessionStorage['permissionid'] == "3")
+            return true;
+        return false;
     }
 
 }

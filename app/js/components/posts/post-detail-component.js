@@ -35,6 +35,11 @@ var PostDetailComponent = (function () {
     PostDetailComponent.prototype.isLogged = function () {
         return app_component_1.AppComponent.isLogged();
     };
+    PostDetailComponent.prototype.userIsAdmin = function () {
+        if (sessionStorage['permissionid'] == "3")
+            return true;
+        return false;
+    };
     PostDetailComponent.prototype.reloadPost = function () {
         var _this = this;
         this.post = new post_1.Post();

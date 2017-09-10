@@ -28,7 +28,7 @@
             <div class="post-actions post-likes-container">
                 <i class="material-icons md-18">thumb_up</i>
                 <div>{{post.voteCount}}</div>
-                <div class="remove-action-list" (click)="removePost(post.id)">
+                <div class="remove-action-list"  *ngIf="userIsAdmin()" (click)="removePost(post.id)">
                     <i class="material-icons md-18 filled-icon">delete</i>
                 </div>
             </div>
