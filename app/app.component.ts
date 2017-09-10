@@ -23,6 +23,7 @@ export class AppComponent {
     }
 
     isLogged(): boolean {
+
         return AppComponent.isLogged();
     }
 

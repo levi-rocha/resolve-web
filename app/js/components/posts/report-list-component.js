@@ -24,7 +24,7 @@ var ReportListComponent = (function () {
         var _this = this;
         this.postService.listReports().subscribe(function (data) { return _this.reports = data; }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
     };
-    ReportListComponent.prototype.removePost = function (id) {
+    ReportListComponent.prototype.removeReportPost = function (id) {
         var _this = this;
         this.postService.remove(id).subscribe(function (data) {
             _this.snackBar.open("Post removido com sucesso", "OK");
