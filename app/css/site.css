@@ -256,3 +256,13 @@ img.displayed{
 .mat-card-header {
 	display: inline !important;
 }
+
+.container-signin{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    background: rgba(30,144,255,0.4);
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

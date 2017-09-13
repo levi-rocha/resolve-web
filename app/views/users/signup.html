@@ -1,47 +1,47 @@
-<div class="vertical-center">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-sm-offset-0 col-lg-4 col-lg-offset-4">
-        <md-card class="login">
-            <md-card-header>
-                <img src="/app/img/probex.png" class="margin-auto">
-            </md-card-header>
-            <md-card-subtitle>
-                <h3 class="text-center">Novo Usuário</h3>
-            </md-card-subtitle>
-            <md-card-content>
-                <div>
-                    <md-input-container class="full-width" [ngClass]="{'mat-input-invalid':usernameTaken}">
-                        <input mdInput placeholder="Usuário" [(ngModel)]="user.username" (blur)="onBlur()" required>
-                    </md-input-container>
+
+        <div class="col-md-6  col-md-offset-3">
+            <div><img src="/app/img/logo-euResolvo.png" class="displayed"></div>
+            <h3 class="text-center">Novo Usuario</h3>
+            <form name="form" >
+                <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
+
+                    <label >Usuário</label>
+                    <input type="text" class="form-control" name="username" [(ngModel)]="user.username" (blur)="onBlur()" required />
                     <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
+
                 </div>
-                <div>
-                    <md-input-container class="full-width">
-                        <input mdInput placeholder="E-mail" type="email" [(ngModel)]="user.email" required>
-                    </md-input-container>
+                <div class="form-group">
+
+                    <label >E-mail</label>
+                    <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
+
+
                 </div>
-                <div>
-                    <md-input-container class="full-width">
-                        <input mdInput type="password" placeholder="Senha" [(ngModel)]="user.password" required>
-                    </md-input-container>
+                <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
+
+                    <label >Senha</label>
+                    <input type="password" class="form-control" name="senha" [(ngModel)]="user.password" required />
+
+
                 </div>
-                <div class="select-container">
+
+
+                <!--<div class="select-container">
                     <span class="select-label">Tipo de usuário:</span>
-                    <md-select [(ngModel)]="user.permission">
-                        <md-option *ngFor="let permission of permissions" [value]="permission.id">
-                            {{permission.name}}
-                        </md-option>
-                    </md-select>
+                        <md-select [(ngModel)]="user.permission">
+                            <md-option *ngFor="let permission of permissions" [value]="permission.id">
+                                {{permission.name}}
+                            </md-option>
+                        </md-select>
+                </div>-->
+                <div class="form-group">
+                    <div>
+
+                        <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
+                        <button class="btn btn-primary" (click)="_location.back()">Voltar</button>
+
+                    </div>
                 </div>
-            </md-card-content>
-            <md-card-actions>
-                <div>
-                    <button md-button class="full-width" (click)="_location.back()">Voltar</button>
-                </div>
-                <div>
-                    <button md-raised-button [disabled]="usernameTaken" class="full-width" color="primary"
-                            (click)="signUp()">Cadastrar</button>
-                </div>
-            </md-card-actions>
-        </md-card>
-    </div>
-</div>
+            </form>
+
+        </div>
