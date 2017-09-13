@@ -1,5 +1,6 @@
 <div [hidden]="!isLogged()" class="top-fixed">
     <md-toolbar color="primary" class="container">
+
         <button md-button [routerLink]="['/post-list']">Home</button>
         <span class="mat-spacer"></span>
         <button md-button [mdMenuTriggerFor]="menu" id="main-menu-toggle"><img
@@ -13,7 +14,8 @@
 </div>
 <div [hidden]="isLogged()" class="top-fixed">
     <md-toolbar color="primary" class="container">
-        <button md-button [routerLink]="['/post-list']">Home</button>
+
+        <button md-button [routerLink]="['/post-list']"><img src="/app/img/logo-menu.png"></button>
         <span class="mat-spacer"></span>
         <button md-button [routerLink]="['/signIn']">Login</button>
         <button md-button [routerLink]="['/user-signup']">Cadastro</button>
