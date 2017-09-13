@@ -8,6 +8,7 @@
                 <h3 class="text-center">Novo Usuário</h3>
             </md-card-subtitle>
             <md-card-content>
+                <div id="googleBtn" class="g-signin2">Google</div>
                 <div>
                     <md-input-container class="full-width" [ngClass]="{'mat-input-invalid':usernameTaken}">
                         <input mdInput placeholder="Usuário" [(ngModel)]="user.username" (blur)="onBlur()" required>

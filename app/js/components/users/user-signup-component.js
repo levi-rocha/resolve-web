@@ -22,6 +22,7 @@ var UserSignupComponent = (function () {
         this.router = router;
         this.userService = userService;
         this.snackBar = snackBar;
+        this.gClientID = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
     }
     UserSignupComponent.prototype.goBack = function () {
         this._location.back();
@@ -48,6 +49,33 @@ var UserSignupComponent = (function () {
         }, function (error) {
             _this.usernameTaken = false;
         });
+    };
+    UserSignupComponent.prototype.googleInit = function () {
+        var _this = this;
+        gapi.load('auth2', function () {
+            _this.auth2 = gapi.auth2.init({
+                client_id: _this.gClientID,
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile email'
+            });
+            _this.attachSignin(document.getElementById('googleBtn'));
+        });
+    };
+    UserSignupComponent.prototype.attachSignin = function (element) {
+        this.auth2.attachClickHandler(element, {}, function (googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('Token || ' + googleUser.getAuthResponse().id_token);
+            console.log('ID: ' + profile.getId());
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+            //TODO: criar user e cadastrar
+        }, function (error) {
+            alert(JSON.stringify(error, undefined, 2));
+        });
+    };
+    UserSignupComponent.prototype.ngAfterViewInit = function () {
+        this.googleInit();
     };
     return UserSignupComponent;
 }());
