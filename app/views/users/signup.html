@@ -1,47 +1,33 @@
-        <div class="col-md-6  col-md-offset-3">
-            <div><img src="/app/img/logo-euResolvo.png" class="displayed"></div>
-            <h3 class="text-center">Novo Usuario</h3>
-            <div id="googleBtn" class="g-signin2">Google</div>
-            <form name="form" >
-                <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
-
-                    <label >Usuário</label>
-                    <input type="text" class="form-control" name="username" [(ngModel)]="user.username" (blur)="onBlur()" required />
-                    <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
-
-                </div>
-                <div class="form-group">
-
-                    <label >E-mail</label>
-                    <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
-
-
-                </div>
-                <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
-
-                    <label >Senha</label>
-                    <input type="password" class="form-control" name="senha" [(ngModel)]="user.password" required />
-
-
-                </div>
-
-
-                <!--<div class="select-container">
-                    <span class="select-label">Tipo de usuário:</span>
-                        <md-select [(ngModel)]="user.permission">
-                            <md-option *ngFor="let permission of permissions" [value]="permission.id">
-                                {{permission.name}}
-                            </md-option>
-                        </md-select>
-                </div>-->
-                <div class="form-group">
-                    <div>
-
-                        <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
-                        <button class="btn btn-primary" (click)="_location.back()">Voltar</button>
-
-                    </div>
-                </div>
-            </form>
-
+<div  class="container-signInUp">
+    <h3 class="text-center">Cadastre-se ja!</h3>
+    <div id="googleBtn" class="g-signin2">Google</div>
+    <form name="form" >
+        <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
+            <label >Usuário</label>
+            <input class="form-control" name="username" [(ngModel)]="user.username" (blur)="onBlur()" required />
+            <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
         </div>
+        <div class="form-group">
+            <label >E-mail</label>
+                <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
+        </div>
+        <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
+            <label >Senha</label>
+            <input type="password" class="form-control" name="senha" [(ngModel)]="user.password" required />
+        </div>
+        <!--<div class="select-container">
+                <span class="select-label">Tipo de usuário:</span>
+                <md-select [(ngModel)]="user.permission">
+                    <md-option *ngFor="let permission of permissions" [value]="permission.id">
+                    {{permission.name}}
+                    </md-option>
+                </md-select>
+            </div>-->
+        <div class="form-group">
+            <div>
+                <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
+                <a (click)="_location.back()" class="btn btn-link">Voltar</a>
+            </div>
+        </div>
+    </form>
+</div>
