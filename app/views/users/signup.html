@@ -15,14 +15,15 @@
             <label >Senha</label>
             <input type="password" class="form-control" name="senha" [(ngModel)]="user.password" required />
         </div>
-        <!--<div class="select-container">
-                <span class="select-label">Tipo de usuário:</span>
-                <md-select [(ngModel)]="user.permission">
-                    <md-option *ngFor="let permission of permissions" [value]="permission.id">
+ <!--       <div>
+
+                <select [(ngModel)]="user.permission" >
+                    <option disabled selected>Escolha... </option>
+                    <option *ngFor="let permission of permissions" [value]="permission.id">
                     {{permission.name}}
-                    </md-option>
-                </md-select>
-            </div>-->
+                    </option>
+                </select>
+        </div>-->
         <div class="form-group">
             <div>
                 <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
