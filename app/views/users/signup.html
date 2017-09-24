@@ -1,4 +1,4 @@
-<div  class="container-signInUp">
+<!--<div  class="container-signInUp">
     <h3 class="text-center">Cadastre-se ja!</h3>
     <div id="googleBtn" class="g-signin2">Google</div>
     <form name="form" >
@@ -15,7 +15,7 @@
             <label >Senha</label>
             <input type="password" class="form-control" name="senha" [(ngModel)]="user.password" required />
         </div>
- <!--       <div>
+      <div>
 
                 <select [(ngModel)]="user.permission" >
                     <option disabled selected>Escolha... </option>
@@ -23,7 +23,7 @@
                     {{permission.name}}
                     </option>
                 </select>
-        </div>-->
+        </div>
         <div class="form-group">
             <div>
                 <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
@@ -31,4 +31,55 @@
             </div>
         </div>
     </form>
+</div>-->
+
+<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Cadastre-se!</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Usuario:</label>
+                        <input class="form-control"  id="recipient-name" name="username" placeholder="Usuario" [(ngModel)]="user.username" (blur)="onBlur()" required />
+                        <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
+                    </div>
+                    <div class="form-group">
+                        <label >E-mail</label>
+                        <input type="email" class="form-control" name="email" placeholder="Usuario" [(ngModel)]="user.email" required />
+                    </div>
+                    <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
+                        <label for="message-text" class="control-label">Senha:</label>
+                        <input type="password" class="form-control" id="message-text" name="senha"  placeholder="Senha" [(ngModel)]="user.password" required />
+                    </div>
+                    <!--<div class="dropdown">
+                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown trigger
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <ng-template *ngFor="let permission of permissions" [value]="permission.id">
+                                <li>{{permission.name}}</li>
+                            </ng-template>
+                        </ul>-->
+                    <div class="form-group">
+                        <label>Permissao</label>
+                        <select [(ngModel)]="user.permission"  name="permission" class="form-control">
+                            <option [value]="0" [selected]="!user.permission">Escolha...</option>
+                            <option *ngFor="let permission of permissions" [value]="permission.id">
+                                {{permission.name}}
+                            </option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
+            </div>
+        </div>
+    </div>
 </div>
