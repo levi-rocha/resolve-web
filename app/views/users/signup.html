@@ -33,7 +33,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" [routerLink]="['/post-list']">Close</button>
                 <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
             </div>
         </div>
