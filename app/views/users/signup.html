@@ -1,37 +1,3 @@
-<!--<div  class="container-signInUp">
-    <h3 class="text-center">Cadastre-se ja!</h3>
-    <form name="form" >
-        <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
-            <label >Usuário</label>
-            <input class="form-control" name="username" [(ngModel)]="user.username" (blur)="onBlur()" required />
-            <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
-        </div>
-        <div class="form-group">
-            <label >E-mail</label>
-                <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
-        </div>
-        <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}" >
-            <label >Senha</label>
-            <input type="password" class="form-control" name="senha" [(ngModel)]="user.password" required />
-        </div>
-      <div>
-
-                <select [(ngModel)]="user.permission" >
-                    <option disabled selected>Escolha... </option>
-                    <option *ngFor="let permission of permissions" [value]="permission.id">
-                    {{permission.name}}
-                    </option>
-                </select>
-        </div>
-        <div class="form-group">
-            <div>
-                <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
-                <a (click)="_location.back()" class="btn btn-link">Voltar</a>
-            </div>
-        </div>
-    </form>
-</div>-->
-
 <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -54,18 +20,8 @@
                         <label for="message-text" class="control-label">Senha:</label>
                         <input type="password" class="form-control" id="message-text" name="senha"  placeholder="Senha" [(ngModel)]="user.password" required />
                     </div>
-                    <!--<div class="dropdown">
-                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown trigger
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <ng-template *ngFor="let permission of permissions" [value]="permission.id">
-                                <li>{{permission.name}}</li>
-                            </ng-template>
-                        </ul>-->
                     <div class="form-group">
-                        <label>Permissao</label>
+                        <label>Tipo de usuario:</label>
                         <select [(ngModel)]="user.permission"  name="permission" class="form-control">
                             <option [value]="0" [selected]="!user.permission">Escolha...</option>
                             <option *ngFor="let permission of permissions" [value]="permission.id">
