@@ -8,7 +8,7 @@
         <md-menu #menu="mdMenu">
             <button md-menu-item><img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
             <button md-menu-item *ngIf="userIsAdmin()" [routerLink]="['/report-list']">Reports</button>
-            <button md-menu-item (click)="signOut()">Sair</button>
+            <button md-menu-item (click)="signOut()" >Sair</button>
         </md-menu>
     </md-toolbar>
 </div>
@@ -17,8 +17,8 @@
 
         <button md-button [routerLink]="['/post-list']"><img src="/app/img/logo-menu2.png"></button>
         <span class="mat-spacer"></span>
-        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInModal" data-backdrop="static" data-keyboard="false" [routerLink]="['/signIn']">Login</button>
-        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signUpModal" [routerLink]="['/user-signup']">Cadastro</button>
+        <button type="button" class="btns btn-links" data-toggle="modal" data-target="#signInModal" data-backdrop="static" data-keyboard="false" [routerLink]="['/signIn']">Login</button>
+        <button type="button" class="btns btn-links" data-toggle="modal" data-target="#signUpModal" data-backdrop="static" data-keyboard="false" [routerLink]="['/user-signup']">Cadastro</button>
     </md-toolbar>
 </div>
 

@@ -50,7 +50,7 @@ export class UserSignupComponent implements OnInit {
         this.userService.insert(this.user).subscribe(
             data => {
                 this.snackBar.open("Usuario cadastrado com suceso", "OK");
-                this.router.navigate(['/user-list']);
+                this.router.navigate(['/post-list']);
             },
             error => this.snackBar.open("Erro: " + error._body, "OK")
         );

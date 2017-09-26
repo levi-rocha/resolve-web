@@ -39,7 +39,7 @@ var UserSignupComponent = (function () {
         var _this = this;
         this.userService.insert(this.user).subscribe(function (data) {
             _this.snackBar.open("Usuario cadastrado com suceso", "OK");
-            _this.router.navigate(['/user-list']);
+            _this.router.navigate(['/post-list']);
         }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
     };
     UserSignupComponent.prototype.onBlur = function () {

@@ -37,7 +37,7 @@ export class AppComponent {
 
     signOut(): void{
         sessionStorage.clear();
-        this.router.navigate(['/signIn']);
+        this.router.navigate(['/post-list']);
     }
 
     userIsAdmin(): boolean {
