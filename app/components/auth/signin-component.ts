@@ -2,6 +2,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { SigninService } from '../../services/signin-service';
 import {MdSnackBar} from "@angular/material";
+import { User } from "../../models/user";
 declare const gapi: any;
 
 @Component({
@@ -34,19 +35,7 @@ export class SigninComponent {
 	}
 
 	signIn() {
-		this.signinService.signIn(this.username, this.password).subscribe(
-			user => {
-				if (user != null) {
-					sessionStorage['username'] = user.username;
-					sessionStorage['userid'] = user.id;
-					sessionStorage['permissionid'] = user.permission.id;
-					this.router.navigate(['']);
-				}
-			},
-			error => {
-				this.snackBar.open("Erro: " + error, "OK");
-			}
-		);
+		this.signUserIn(this.username, this.password);
 	}
 
 	public googleInit() {
@@ -63,18 +52,30 @@ export class SigninComponent {
 	public attachSignin(element) {
 		this.auth2.attachClickHandler(element, {},
 			(googleUser) => {
+				//TODO: verificar se cadastrado: se não, cadastrar.
 				let profile = googleUser.getBasicProfile();
-				console.log('Token || ' + googleUser.getAuthResponse().id_token);
-				console.log('ID: ' + profile.getId());
-				console.log('Name: ' + profile.getName());
-				console.log('Image URL: ' + profile.getImageUrl());
-				console.log('Email: ' + profile.getEmail());
-
-				//TODO: verificar se cadastrado: se não, cadastrar. se sim, logar.
-
+				let username = profile.getName();
+				let password = profile.getId();
+				this.signUserIn(username, password);
 			}, (error) => {
 				alert(JSON.stringify(error, undefined, 2));
 			});
+	}
+
+	public signUserIn(username: string, passsword: string) {
+		this.signinService.signIn(username, passsword).subscribe(
+			user => {
+				if (user != null) {
+					sessionStorage['username'] = user.username;
+					sessionStorage['userid'] = user.id;
+					sessionStorage['permissionid'] = user.permission.id;
+					this.router.navigate(['']);
+				}
+			},
+			error => {
+				this.snackBar.open("Erro: " + error, "OK");
+			}
+		);
 	}
 
 	ngAfterViewInit(){

@@ -47,13 +47,7 @@ export class UserSignupComponent implements OnInit {
     }
 
     signUp() {
-        this.userService.insert(this.user).subscribe(
-            data => {
-                this.snackBar.open("Usuario cadastrado com suceso", "OK");
-                this.router.navigate(['/user-list']);
-            },
-            error => this.snackBar.open("Erro: " + error._body, "OK")
-        );
+        this.signUserUp(this.user);
     }
 
     onBlur() {
@@ -82,17 +76,25 @@ export class UserSignupComponent implements OnInit {
         this.auth2.attachClickHandler(element, {},
             (googleUser) => {
                 let profile = googleUser.getBasicProfile();
-                console.log('Token || ' + googleUser.getAuthResponse().id_token);
-                console.log('ID: ' + profile.getId());
-                console.log('Name: ' + profile.getName());
-                console.log('Image URL: ' + profile.getImageUrl());
-                console.log('Email: ' + profile.getEmail());
-
-                //TODO: criar user e cadastrar
-
+                let newUser : User = new User();
+                newUser.username = profile.getName();
+                newUser.email = profile.getEmail();
+                newUser.password = profile.getId();
+                newUser.permission = new Permission(1);
+                this.signUserUp(newUser);
             }, (error) => {
                 alert(JSON.stringify(error, undefined, 2));
             });
+    }
+
+    public signUserUp(user: User) {
+        this.userService.insert(user).subscribe(
+            data => {
+                this.snackBar.open("Usuario cadastrado com suceso", "OK");
+                this.router.navigate(['/user-list']);
+            },
+            error => this.snackBar.open("Erro: " + error._body, "OK")
+        );
     }
 
     ngAfterViewInit(){

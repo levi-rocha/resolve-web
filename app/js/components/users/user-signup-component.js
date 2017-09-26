@@ -36,11 +36,7 @@ var UserSignupComponent = (function () {
         ];
     };
     UserSignupComponent.prototype.signUp = function () {
-        var _this = this;
-        this.userService.insert(this.user).subscribe(function (data) {
-            _this.snackBar.open("Usuario cadastrado com suceso", "OK");
-            _this.router.navigate(['/user-list']);
-        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+        this.signUserUp(this.user);
     };
     UserSignupComponent.prototype.onBlur = function () {
         var _this = this;
@@ -62,17 +58,25 @@ var UserSignupComponent = (function () {
         });
     };
     UserSignupComponent.prototype.attachSignin = function (element) {
+        var _this = this;
         this.auth2.attachClickHandler(element, {}, function (googleUser) {
             var profile = googleUser.getBasicProfile();
-            console.log('Token || ' + googleUser.getAuthResponse().id_token);
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-            //TODO: criar user e cadastrar
+            var newUser = new user_1.User();
+            newUser.username = profile.getName();
+            newUser.email = profile.getEmail();
+            newUser.password = profile.getId();
+            newUser.permission = new permission_1.Permission(1);
+            _this.signUserUp(newUser);
         }, function (error) {
             alert(JSON.stringify(error, undefined, 2));
         });
+    };
+    UserSignupComponent.prototype.signUserUp = function (user) {
+        var _this = this;
+        this.userService.insert(user).subscribe(function (data) {
+            _this.snackBar.open("Usuario cadastrado com suceso", "OK");
+            _this.router.navigate(['/user-list']);
+        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
     };
     UserSignupComponent.prototype.ngAfterViewInit = function () {
         this.googleInit();

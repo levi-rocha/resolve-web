@@ -31,17 +31,7 @@ var SigninComponent = (function () {
         });
     }
     SigninComponent.prototype.signIn = function () {
-        var _this = this;
-        this.signinService.signIn(this.username, this.password).subscribe(function (user) {
-            if (user != null) {
-                sessionStorage['username'] = user.username;
-                sessionStorage['userid'] = user.id;
-                sessionStorage['permissionid'] = user.permission.id;
-                _this.router.navigate(['']);
-            }
-        }, function (error) {
-            _this.snackBar.open("Erro: " + error, "OK");
-        });
+        this.signUserIn(this.username, this.password);
     };
     SigninComponent.prototype.googleInit = function () {
         var _this = this;
@@ -55,16 +45,28 @@ var SigninComponent = (function () {
         });
     };
     SigninComponent.prototype.attachSignin = function (element) {
+        var _this = this;
         this.auth2.attachClickHandler(element, {}, function (googleUser) {
+            //TODO: verificar se cadastrado: se não, cadastrar.
             var profile = googleUser.getBasicProfile();
-            console.log('Token || ' + googleUser.getAuthResponse().id_token);
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-            //TODO: criar user
+            var username = profile.getName();
+            var password = profile.getId();
+            _this.signUserIn(username, password);
         }, function (error) {
             alert(JSON.stringify(error, undefined, 2));
+        });
+    };
+    SigninComponent.prototype.signUserIn = function (username, passsword) {
+        var _this = this;
+        this.signinService.signIn(username, passsword).subscribe(function (user) {
+            if (user != null) {
+                sessionStorage['username'] = user.username;
+                sessionStorage['userid'] = user.id;
+                sessionStorage['permissionid'] = user.permission.id;
+                _this.router.navigate(['']);
+            }
+        }, function (error) {
+            _this.snackBar.open("Erro: " + error, "OK");
         });
     };
     SigninComponent.prototype.ngAfterViewInit = function () {
