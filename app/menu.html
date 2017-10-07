@@ -18,7 +18,7 @@
         <button md-button [routerLink]="['/post-list']"><img src="/app/img/logo-menu2.png"></button>
         <span class="mat-spacer"></span>
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInModal" data-backdrop="static" data-keyboard="false" [routerLink]="['/signIn']">Login</button>
-        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signUpModal" [routerLink]="['/user-signup']">Cadastro</button>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signUpModal" >Cadastro</button>
     </md-toolbar>
 </div>
 
@@ -26,4 +26,45 @@
 
 <div class="container">
     <router-outlet></router-outlet>
+</div>
+
+<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Cadastre-se!</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Usuario:</label>
+                        <input class="form-control"  id="recipient-name" name="username" placeholder="Usuario" [(ngModel)]="user.username" (blur)="onBlur()" required />
+                        <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
+                    </div>
+                    <div class="form-group">
+                        <label >E-mail</label>
+                        <input type="email" class="form-control" name="email" placeholder="Usuario" [(ngModel)]="user.email" required />
+                    </div>
+                    <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
+                        <label for="message-text" class="control-label">Senha:</label>
+                        <input type="password" class="form-control" id="message-text" name="senha"  placeholder="Senha" [(ngModel)]="user.password" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de usuario:</label>
+                        <select [(ngModel)]="user.permission"  name="permission" class="form-control">
+                            <option [value]="0" [selected]="!user.permission">Escolha...</option>
+                            <option *ngFor="let permission of permissions" [value]="permission.id">
+                                {{permission.name}}
+                            </option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" [routerLink]="['/post-list']">Close</button>
+                <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
+            </div>
+        </div>
+    </div>
 </div>

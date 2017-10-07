@@ -10,7 +10,6 @@ import {RouterModule} from "@angular/router";
 
 import {UserListComponent} from "./components/users/user-list-component";
 import {NewPostComponent} from "./components/posts/new-post-component";
-import {UserSignupComponent} from "./components/users/user-signup-component";
 import {UserEditComponent} from "./components/users/user-edit-component";
 import {UserViewComponent} from "./components/users/user-view-component";
 import {SigninComponent} from "./components/auth/signin-component";
@@ -63,7 +62,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     declarations: [
         AppComponent,
         UserListComponent,
-        UserSignupComponent,
         UserEditComponent,
         UserViewComponent,
         SigninComponent,

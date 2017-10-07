@@ -12,16 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var signin_service_1 = require("./services/signin-service");
 var router_1 = require("@angular/router");
+var user_1 = require("./models/user");
+var user_service_1 = require("./services/user-service");
+var material_1 = require("@angular/material");
+var permission_1 = require("./models/permission");
+var common_1 = require("@angular/common");
 var AppComponent = AppComponent_1 = (function () {
-    function AppComponent(signinService, router) {
+    function AppComponent(signinService, router, _location, userService, snackBar) {
         this.signinService = signinService;
         this.router = router;
-        // this.signinService.loggedUser.subscribe(
-        //   value => {
-        //     this.loggedUsername = value;
-        //     console.log("loggedUser changed: " + value);
-        //   }, error => console.log("error")
-        // );
+        this._location = _location;
+        this.userService = userService;
+        this.snackBar = snackBar;
     }
     AppComponent.isLogged = function () {
         return sessionStorage['username'] != null;
@@ -44,16 +46,46 @@ var AppComponent = AppComponent_1 = (function () {
             return true;
         return false;
     };
+    AppComponent.prototype.goBack = function () {
+        this._location.back();
+    };
+    AppComponent.prototype.ngOnInit = function () {
+        this.user = new user_1.User();
+        this.usernameTaken = false;
+        this.permissions = [
+            new permission_1.Permission(1, "standard"),
+            new permission_1.Permission(2, "professional"),
+        ];
+    };
+    AppComponent.prototype.signUp = function () {
+        var _this = this;
+        this.userService.insert(this.user).subscribe(function (data) {
+            _this.snackBar.open("Usuario cadastrado com suceso", "OK");
+            _this.router.navigate(['/user-list']);
+        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+    };
+    AppComponent.prototype.onBlur = function () {
+        var _this = this;
+        this.userService.findByUsername(this.user.username).subscribe(function (data) {
+            _this.usernameTaken = true;
+        }, function (error) {
+            _this.usernameTaken = false;
+        });
+    };
     return AppComponent;
 }());
 AppComponent = AppComponent_1 = __decorate([
     core_1.Component({
         selector: 'meu-app',
         templateUrl: 'app/menu.html',
-        providers: [signin_service_1.SigninService],
+        providers: [signin_service_1.SigninService, user_service_1.UserService],
         encapsulation: core_1.ViewEncapsulation.None
     }),
-    __metadata("design:paramtypes", [signin_service_1.SigninService, router_1.Router])
+    __metadata("design:paramtypes", [signin_service_1.SigninService,
+        router_1.Router,
+        common_1.Location,
+        user_service_1.UserService,
+        material_1.MdSnackBar])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 var AppComponent_1;

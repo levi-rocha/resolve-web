@@ -16,7 +16,6 @@ var signin_routes_1 = require("./components/auth/signin-routes");
 var router_1 = require("@angular/router");
 var user_list_component_1 = require("./components/users/user-list-component");
 var new_post_component_1 = require("./components/posts/new-post-component");
-var user_signup_component_1 = require("./components/users/user-signup-component");
 var user_edit_component_1 = require("./components/users/user-edit-component");
 var user_view_component_1 = require("./components/users/user-view-component");
 var signin_component_1 = require("./components/auth/signin-component");
@@ -56,7 +55,6 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             user_list_component_1.UserListComponent,
-            user_signup_component_1.UserSignupComponent,
             user_edit_component_1.UserEditComponent,
             user_view_component_1.UserViewComponent,
             signin_component_1.SigninComponent,
