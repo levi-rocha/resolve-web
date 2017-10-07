@@ -19,8 +19,8 @@
         </div>
     </div>
     <new-post *ngIf="isLogged()"></new-post>
-    <md-card *ngFor="let post of posts" [routerLink]="['/post/'+post.id]">
-        <md-card-header>
+    <md-card *ngFor="let post of posts">
+        <md-card-header [routerLink]="['/post/'+post.id]" style="cursor: pointer;">
                 <md-card-title><h3>{{ post.title }}</h3></md-card-title>
         </md-card-header>
         <md-card-content>{{ post.contentPreview }}</md-card-content>
@@ -28,6 +28,9 @@
             <div class="post-actions post-likes-container">
                 <i class="material-icons md-18">thumb_up</i>
                 <div>{{post.voteCount}}</div>
+                <div class="remove-action-list"  *ngIf="userIsAdmin()" (click)="removePost(post.id)">
+                    <i class="material-icons md-18 filled-icon">delete</i>
+                </div>
             </div>
             <div class="post-actions post-details">
                 <i class="material-icons md-18">record_voice_over</i>

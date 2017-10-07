@@ -34,11 +34,37 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, router_1.RouterModule.forRoot(app_routes_1.APP_ROUTES, signin_routes_1.AUTH_PROVIDERS), forms_1.FormsModule, http_1.HttpModule,
-            material_1.MdButtonModule, material_1.MdSidenavModule, material_1.MdToolbarModule, material_1.MdCardModule, material_1.MdInputModule, animations_1.BrowserAnimationsModule,
-            material_1.MdSnackBarModule, material_1.MdMenuModule, material_1.MdProgressBarModule, material_1.MdListModule, material_1.MdTabsModule, material_1.MdIconModule, material_1.MdSelectModule],
-        declarations: [app_component_1.AppComponent, user_list_component_1.UserListComponent, user_signup_component_1.UserSignupComponent, user_edit_component_1.UserEditComponent, user_view_component_1.UserViewComponent,
-            signin_component_1.SigninComponent, new_post_component_1.NewPostComponent, post_list_component_1.PostListComponent, post_detail_component_1.PostDetailComponent, report_list_component_1.ReportListComponent],
+        imports: [
+            platform_browser_1.BrowserModule,
+            router_1.RouterModule.forRoot(app_routes_1.APP_ROUTES, signin_routes_1.AUTH_PROVIDERS),
+            forms_1.FormsModule,
+            http_1.HttpModule,
+            material_1.MdButtonModule,
+            material_1.MdSidenavModule,
+            material_1.MdToolbarModule,
+            material_1.MdCardModule,
+            material_1.MdInputModule,
+            animations_1.BrowserAnimationsModule,
+            material_1.MdSnackBarModule,
+            material_1.MdMenuModule,
+            material_1.MdProgressBarModule,
+            material_1.MdListModule,
+            material_1.MdTabsModule,
+            material_1.MdIconModule,
+            material_1.MdSelectModule,
+        ],
+        declarations: [
+            app_component_1.AppComponent,
+            user_list_component_1.UserListComponent,
+            user_signup_component_1.UserSignupComponent,
+            user_edit_component_1.UserEditComponent,
+            user_view_component_1.UserViewComponent,
+            signin_component_1.SigninComponent,
+            new_post_component_1.NewPostComponent,
+            post_list_component_1.PostListComponent,
+            post_detail_component_1.PostDetailComponent,
+            report_list_component_1.ReportListComponent
+        ],
         providers: [auth_guard_1.AuthGuard, signin_service_1.SigninService],
         bootstrap: [app_component_1.AppComponent]
     })

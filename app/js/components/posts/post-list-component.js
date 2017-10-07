@@ -12,9 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var post_service_1 = require("../../services/post-service");
 var app_component_1 = require("../../app.component");
+var material_1 = require("@angular/material");
 var PostListComponent = (function () {
-    function PostListComponent(postService) {
+    function PostListComponent(postService, snackBar) {
         this.postService = postService;
+        this.snackBar = snackBar;
         this.page = 0;
         this.pageSize = 5;
     }
@@ -61,6 +63,20 @@ var PostListComponent = (function () {
         this.page++;
         this.refreshList();
     };
+    PostListComponent.prototype.removePost = function (id) {
+        var _this = this;
+        console.log("ID", id);
+        this.postService.remove(id).subscribe(function (data) {
+            _this.snackBar.open("Post removido com sucesso", "OK");
+            _this.refreshList();
+        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+        debugger;
+    };
+    PostListComponent.prototype.userIsAdmin = function () {
+        if (sessionStorage['permissionid'] == "3")
+            return true;
+        return false;
+    };
     return PostListComponent;
 }());
 PostListComponent = __decorate([
@@ -69,7 +85,8 @@ PostListComponent = __decorate([
         templateUrl: 'app/views/post/post-list.html',
         providers: [post_service_1.PostService]
     }),
-    __metadata("design:paramtypes", [post_service_1.PostService])
+    __metadata("design:paramtypes", [post_service_1.PostService,
+        material_1.MdSnackBar])
 ], PostListComponent);
 exports.PostListComponent = PostListComponent;
 //# sourceMappingURL=post-list-component.js.map

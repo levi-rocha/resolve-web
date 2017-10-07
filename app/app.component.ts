@@ -23,6 +23,7 @@ export class AppComponent {
     }
 
     isLogged(): boolean {
+
         return AppComponent.isLogged();
     }
 
@@ -36,7 +37,7 @@ export class AppComponent {
 
     signOut(): void{
         sessionStorage.clear();
-        this.router.navigate(['/signIn']);
+        this.router.navigate(['/post-list']);
     }
 
     userIsAdmin(): boolean {

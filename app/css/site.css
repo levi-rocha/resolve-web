@@ -26,9 +26,9 @@ div.report-list md-card {
     margin-bottom: 18px;
 }
 
-.remove-action {
+.remove-action-list {
     position: absolute;
-    right: 12px;
+    left: 72px;
     bottom: 8px;
 }
 
@@ -227,7 +227,11 @@ md-card-content h4 {
     display: flex;
     align-items: center;
 }
-
+img.displayed{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -251,4 +255,55 @@ md-card-content h4 {
 
 .mat-card-header {
 	display: inline !important;
+}
+
+.container-signInUp{
+
+    width: 400px;
+
+    position: absolute;
+    top: 200px;
+    left: 512px;
+    margin-top: -50px;
+    margin-left: -50px;
+
+    background: rgba(30,144,255,0.4);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    /*position: absolute;
+    top:25%;
+    left: 25%;*/
+}
+.dd{
+    border-radius: 5px;
+}
+
+.btns {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    transformext-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+.btn-links:hover{
+    color: #23527c;
+    background-color: #d9d9d9;
+
 }

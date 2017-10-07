@@ -37,7 +37,7 @@ var AppComponent = AppComponent_1 = (function () {
     };
     AppComponent.prototype.signOut = function () {
         sessionStorage.clear();
-        this.router.navigate(['/signIn']);
+        this.router.navigate(['/post-list']);
     };
     AppComponent.prototype.userIsAdmin = function () {
         if (sessionStorage['permissionid'] == "3")

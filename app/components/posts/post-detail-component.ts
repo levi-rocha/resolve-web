@@ -15,6 +15,7 @@ import {Report} from "../../models/report";
     providers: [PostService, MdSnackBar]
 })
 export class PostDetailComponent implements OnInit {
+    refreshList: any;
 
     private post: Post;
     private newComment: string;
@@ -38,6 +39,12 @@ export class PostDetailComponent implements OnInit {
 
     isLogged(): boolean {
         return AppComponent.isLogged();
+    }
+
+    userIsAdmin(): boolean {
+        if (sessionStorage['permissionid'] == "3")
+            return true;
+        return false;
     }
 
     private reloadPost() {
@@ -149,4 +156,6 @@ export class PostDetailComponent implements OnInit {
         else
             this.showSolutions = true;
     }
+
+
 }
