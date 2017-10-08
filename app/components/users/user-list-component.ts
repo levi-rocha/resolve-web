@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user-service';
 import { OnInit } from '@angular/core';
+import {NgProgressService} from 'ngx-progressbar';
 
 @Component({
 	selector: 'user-list',
@@ -14,7 +15,8 @@ export class UserListComponent implements OnInit {
 
 	error: string;
 
-	constructor(private userService: UserService) {
+	constructor(private userService: UserService,
+				private progressService: NgProgressService) {
 	}
 
 	ngOnInit() {
@@ -22,16 +24,30 @@ export class UserListComponent implements OnInit {
 	}
 
 	listAll() {
+        this.progressService.start();
         this.userService.listAll().subscribe(
-            data => this.users = data,
-            error => this.error = "Could not list users"
+            data => {
+                this.users = data;
+                this.progressService.done();
+            },
+            error => {
+                this.error = "Could not list users";
+                this.progressService.done();
+            }
         );
     }
 
 	delete(username: string) {
+        this.progressService.start();
 		this.userService.delete(username).subscribe(
-			data => this.listAll(),
-			error => this.error = "Could not delete user"
+			data => {
+                this.progressService.done();
+                this.listAll();
+            },
+			error => {
+                this.error = "Could not delete user";
+			    this.progressService.done();
+			}
 		);
 	}
 }

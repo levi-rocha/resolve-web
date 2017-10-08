@@ -2,6 +2,8 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { SigninService } from '../../services/signin-service';
 import {MdSnackBar} from "@angular/material";
+import { User } from "../../models/user";
+import {NgProgressService} from 'ngx-progressbar';
 declare const gapi: any;
 
 @Component({
@@ -18,10 +20,14 @@ export class SigninComponent {
 
 	error: string;
 
-	constructor(private router: Router, private signinService: SigninService, public snackBar: MdSnackBar) {
+	constructor(private router: Router,
+                private signinService: SigninService,
+                public snackBar: MdSnackBar,
+                private progressService: NgProgressService) {
+        this.progressService.start();
 		this.signinService.loggedUser.subscribe(
 			value => {
-				console.log(value);
+                this.progressService.done();
 				if (value != "") {
 					this.router.navigate(['']);
 				}
@@ -29,24 +35,13 @@ export class SigninComponent {
 			error => {
 				this.error = "Could not log in";
 				this.snackBar.open("Falha ao efetuar login", "OK");
+                this.progressService.done();
 			}
 		);
 	}
 
 	signIn() {
-		this.signinService.signIn(this.username, this.password).subscribe(
-			user => {
-				if (user != null) {
-					sessionStorage['username'] = user.username;
-					sessionStorage['userid'] = user.id;
-					sessionStorage['permissionid'] = user.permission.id;
-					this.router.navigate(['']);
-				}
-			},
-			error => {
-				this.snackBar.open("Erro: " + error, "OK");
-			}
-		);
+		this.signUserIn(this.username, this.password);
 	}
 
 	public googleInit() {
@@ -63,18 +58,33 @@ export class SigninComponent {
 	public attachSignin(element) {
 		this.auth2.attachClickHandler(element, {},
 			(googleUser) => {
+				//TODO: verificar se cadastrado: se não, cadastrar.
 				let profile = googleUser.getBasicProfile();
-				console.log('Token || ' + googleUser.getAuthResponse().id_token);
-				console.log('ID: ' + profile.getId());
-				console.log('Name: ' + profile.getName());
-				console.log('Image URL: ' + profile.getImageUrl());
-				console.log('Email: ' + profile.getEmail());
-
-				//TODO: verificar se cadastrado: se não, cadastrar. se sim, logar.
-
+				let username = profile.getName();
+				let password = profile.getId();
+				this.signUserIn(username, password);
 			}, (error) => {
 				alert(JSON.stringify(error, undefined, 2));
 			});
+	}
+
+	public signUserIn(username: string, passsword: string) {
+        this.progressService.start();
+		this.signinService.signIn(username, passsword).subscribe(
+			user => {
+                this.progressService.done();
+				if (user != null) {
+					sessionStorage['username'] = user.username;
+					sessionStorage['userid'] = user.id;
+					sessionStorage['permissionid'] = user.permission.id;
+					this.router.navigate(['']);
+				}
+			},
+			error => {
+                this.progressService.done();
+				this.snackBar.open("Erro: " + error, "OK");
+			}
+		);
 	}
 
 	ngAfterViewInit(){

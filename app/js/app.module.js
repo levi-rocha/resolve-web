@@ -25,6 +25,7 @@ var post_detail_component_1 = require("./components/posts/post-detail-component"
 var report_list_component_1 = require("./components/posts/report-list-component");
 var auth_guard_1 = require("./auth-guard");
 var signin_service_1 = require("./services/signin-service");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var material_1 = require("@angular/material");
 var animations_1 = require("@angular/platform-browser/animations");
 var AppModule = (function () {
@@ -52,6 +53,7 @@ AppModule = __decorate([
             material_1.MdTabsModule,
             material_1.MdIconModule,
             material_1.MdSelectModule,
+            ngx_progressbar_1.NgProgressModule
         ],
         declarations: [
             app_component_1.AppComponent,

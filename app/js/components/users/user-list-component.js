@@ -11,20 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var user_service_1 = require("../../services/user-service");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var UserListComponent = (function () {
-    function UserListComponent(userService) {
+    function UserListComponent(userService, progressService) {
         this.userService = userService;
+        this.progressService = progressService;
     }
     UserListComponent.prototype.ngOnInit = function () {
         this.listAll();
     };
     UserListComponent.prototype.listAll = function () {
         var _this = this;
-        this.userService.listAll().subscribe(function (data) { return _this.users = data; }, function (error) { return _this.error = "Could not list users"; });
+        this.progressService.start();
+        this.userService.listAll().subscribe(function (data) {
+            _this.users = data;
+            _this.progressService.done();
+        }, function (error) {
+            _this.error = "Could not list users";
+            _this.progressService.done();
+        });
     };
     UserListComponent.prototype.delete = function (username) {
         var _this = this;
-        this.userService.delete(username).subscribe(function (data) { return _this.listAll(); }, function (error) { return _this.error = "Could not delete user"; });
+        this.progressService.start();
+        this.userService.delete(username).subscribe(function (data) {
+            _this.progressService.done();
+            _this.listAll();
+        }, function (error) {
+            _this.error = "Could not delete user";
+            _this.progressService.done();
+        });
     };
     return UserListComponent;
 }());
@@ -34,7 +50,8 @@ UserListComponent = __decorate([
         templateUrl: 'app/views/users/list.html',
         providers: [user_service_1.UserService]
     }),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        ngx_progressbar_1.NgProgressService])
 ], UserListComponent);
 exports.UserListComponent = UserListComponent;
 //# sourceMappingURL=user-list-component.js.map
