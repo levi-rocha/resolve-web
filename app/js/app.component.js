@@ -19,11 +19,21 @@ var permission_1 = require("./models/permission");
 var common_1 = require("@angular/common");
 var AppComponent = AppComponent_1 = (function () {
     function AppComponent(signinService, router, _location, userService, snackBar) {
+        var _this = this;
         this.signinService = signinService;
         this.router = router;
         this._location = _location;
         this.userService = userService;
         this.snackBar = snackBar;
+        this.signinService.loggedUser.subscribe(function (value) {
+            console.log(value);
+            if (value != "") {
+                _this.router.navigate(['']);
+            }
+        }, function (error) {
+            _this.error = "Could not log in";
+            _this.snackBar.open("Falha ao efetuar login", "OK");
+        });
     }
     AppComponent.isLogged = function () {
         return sessionStorage['username'] != null;
@@ -57,6 +67,19 @@ var AppComponent = AppComponent_1 = (function () {
             new permission_1.Permission(2, "professional"),
         ];
     };
+    AppComponent.prototype.signIn = function () {
+        var _this = this;
+        this.signinService.signIn(this.username, this.password).subscribe(function (user) {
+            if (user != null) {
+                sessionStorage['username'] = user.username;
+                sessionStorage['userid'] = user.id;
+                sessionStorage['permissionid'] = user.permission.id;
+                _this.router.navigate(['']);
+            }
+        }, function (error) {
+            _this.snackBar.open("Erro: " + error, "OK");
+        });
+    };
     AppComponent.prototype.signUp = function () {
         var _this = this;
         this.userService.insert(this.user).subscribe(function (data) {
@@ -78,7 +101,7 @@ AppComponent = AppComponent_1 = __decorate([
     core_1.Component({
         selector: 'meu-app',
         templateUrl: 'app/menu.html',
-        providers: [signin_service_1.SigninService, user_service_1.UserService],
+        providers: [signin_service_1.SigninService, user_service_1.UserService, material_1.MdSnackBar],
         encapsulation: core_1.ViewEncapsulation.None
     }),
     __metadata("design:paramtypes", [signin_service_1.SigninService,

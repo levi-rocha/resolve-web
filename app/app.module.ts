@@ -12,7 +12,6 @@ import {UserListComponent} from "./components/users/user-list-component";
 import {NewPostComponent} from "./components/posts/new-post-component";
 import {UserEditComponent} from "./components/users/user-edit-component";
 import {UserViewComponent} from "./components/users/user-view-component";
-import {SigninComponent} from "./components/auth/signin-component";
 import {PostListComponent} from "./components/posts/post-list-component";
 import {PostDetailComponent} from "./components/posts/post-detail-component";
 import {ReportListComponent} from "./components/posts/report-list-component";
@@ -64,7 +63,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         UserListComponent,
         UserEditComponent,
         UserViewComponent,
-        SigninComponent,
         NewPostComponent,
         PostListComponent,
         PostDetailComponent,

@@ -10,7 +10,7 @@ import {Location} from "@angular/common";
 @Component({
     selector: 'meu-app',
     templateUrl: 'app/menu.html',
-    providers: [SigninService, UserService],
+    providers: [SigninService, UserService, MdSnackBar],
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit{
@@ -19,15 +19,27 @@ export class AppComponent implements OnInit{
                 private _location: Location,
                 private userService: UserService,
                 public snackBar: MdSnackBar) {
+        this.signinService.loggedUser.subscribe(
+            value => {
+                console.log(value);
+                if (value != "") {
+                    this.router.navigate(['']);
+                }
+            },
+            error => {
+                this.error = "Could not log in";
+                this.snackBar.open("Falha ao efetuar login", "OK");
+            }
+        );
+
 
     }
 
     private user: User;
-
     error: string;
-
     private usernameTaken: boolean;
-
+    private username: string;
+    private password: string;
     private permissions: Permission[];
 
 
@@ -70,6 +82,21 @@ export class AppComponent implements OnInit{
             new Permission(1, "standard"),
             new Permission(2, "professional"),
         ];
+    }
+    signIn() {
+        this.signinService.signIn(this.username, this.password).subscribe(
+            user => {
+                if (user != null) {
+                    sessionStorage['username'] = user.username;
+                    sessionStorage['userid'] = user.id;
+                    sessionStorage['permissionid'] = user.permission.id;
+                    this.router.navigate(['']);
+                }
+            },
+            error => {
+                this.snackBar.open("Erro: " + error, "OK");
+            }
+        );
     }
 
     signUp() {

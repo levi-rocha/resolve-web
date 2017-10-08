@@ -18,7 +18,6 @@ var user_list_component_1 = require("./components/users/user-list-component");
 var new_post_component_1 = require("./components/posts/new-post-component");
 var user_edit_component_1 = require("./components/users/user-edit-component");
 var user_view_component_1 = require("./components/users/user-view-component");
-var signin_component_1 = require("./components/auth/signin-component");
 var post_list_component_1 = require("./components/posts/post-list-component");
 var post_detail_component_1 = require("./components/posts/post-detail-component");
 var report_list_component_1 = require("./components/posts/report-list-component");
@@ -57,7 +56,6 @@ AppModule = __decorate([
             user_list_component_1.UserListComponent,
             user_edit_component_1.UserEditComponent,
             user_view_component_1.UserViewComponent,
-            signin_component_1.SigninComponent,
             new_post_component_1.NewPostComponent,
             post_list_component_1.PostListComponent,
             post_detail_component_1.PostDetailComponent,
