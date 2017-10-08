@@ -23,7 +23,7 @@ var UserListComponent = (function () {
     UserListComponent.prototype.listAll = function () {
         var _this = this;
         this.progressService.start();
-        this.userService.listAll().subscribe(function (data) {
+        this.subscription = this.userService.listAll().subscribe(function (data) {
             _this.users = data;
             _this.progressService.done();
         }, function (error) {
@@ -34,13 +34,16 @@ var UserListComponent = (function () {
     UserListComponent.prototype.delete = function (username) {
         var _this = this;
         this.progressService.start();
-        this.userService.delete(username).subscribe(function (data) {
+        this.subscription = this.userService.delete(username).subscribe(function (data) {
             _this.progressService.done();
             _this.listAll();
         }, function (error) {
             _this.error = "Could not delete user";
             _this.progressService.done();
         });
+    };
+    UserListComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
     };
     return UserListComponent;
 }());

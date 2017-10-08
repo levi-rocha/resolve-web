@@ -16,7 +16,6 @@ var SigninService = (function () {
     function SigninService(http) {
         this.http = http;
         this.serviceUrl = "https://resolve-rest.herokuapp.com/login";
-        this.loggedUser = new Rx_1.BehaviorSubject("");
     }
     // signIn(username: string, password: string) {
     //     this.validateAndGetUser(username, password).subscribe(
@@ -36,7 +35,7 @@ var SigninService = (function () {
     // }
     SigninService.prototype.signOut = function () {
         delete sessionStorage['username'];
-        this.loggedUser.next("");
+        //this.loggedUser.next("");
         this.router.navigate(['/signIn']);
     };
     SigninService.signedIn = function () {

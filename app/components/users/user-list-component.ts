@@ -3,6 +3,7 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user-service';
 import { OnInit } from '@angular/core';
 import {NgProgressService} from 'ngx-progressbar';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
 	selector: 'user-list',
@@ -14,6 +15,7 @@ export class UserListComponent implements OnInit {
 	private users: User[];
 
 	error: string;
+	private subscription: Subscription;
 
 	constructor(private userService: UserService,
 				private progressService: NgProgressService) {
@@ -25,7 +27,7 @@ export class UserListComponent implements OnInit {
 
 	listAll() {
         this.progressService.start();
-        this.userService.listAll().subscribe(
+        this.subscription = this.userService.listAll().subscribe(
             data => {
                 this.users = data;
                 this.progressService.done();
@@ -39,7 +41,7 @@ export class UserListComponent implements OnInit {
 
 	delete(username: string) {
         this.progressService.start();
-		this.userService.delete(username).subscribe(
+        this.subscription = this.userService.delete(username).subscribe(
 			data => {
                 this.progressService.done();
                 this.listAll();
@@ -50,4 +52,10 @@ export class UserListComponent implements OnInit {
 			}
 		);
 	}
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+
 }

@@ -12,16 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var signin_service_1 = require("./services/signin-service");
 var router_1 = require("@angular/router");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var AppComponent = AppComponent_1 = (function () {
-    function AppComponent(signinService, router) {
+    function AppComponent(signinService, router, progressService) {
         this.signinService = signinService;
         this.router = router;
-        // this.signinService.loggedUser.subscribe(
-        //   value => {
-        //     this.loggedUsername = value;
-        //     console.log("loggedUser changed: " + value);
-        //   }, error => console.log("error")
-        // );
+        this.progressService = progressService;
     }
     AppComponent.isLogged = function () {
         return sessionStorage['username'] != null;
@@ -53,7 +49,8 @@ AppComponent = AppComponent_1 = __decorate([
         providers: [signin_service_1.SigninService],
         encapsulation: core_1.ViewEncapsulation.None
     }),
-    __metadata("design:paramtypes", [signin_service_1.SigninService, router_1.Router])
+    __metadata("design:paramtypes", [signin_service_1.SigninService, router_1.Router,
+        ngx_progressbar_1.NgProgressService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 var AppComponent_1;

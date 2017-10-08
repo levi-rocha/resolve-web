@@ -1,6 +1,5 @@
 import {Component, OnInit} from "@angular/core";
 import {Post} from "../../models/post";
-import {Loader} from "../../models/loader";
 import {PostService} from "../../services/post-service";
 import {AppComponent} from "../../app.component";
 import {MdSnackBar} from "@angular/material";
@@ -25,12 +24,9 @@ export class PostListComponent implements OnInit {
 
 	private searchInput: string;
 
-	private loader: Loader;
-
 	constructor(private postService: PostService,
                 public snackBar: MdSnackBar,
                 private progressService: NgProgressService) {
-	    this.loader = new Loader(false);
 	}
 
     isLogged(): boolean {
@@ -44,18 +40,15 @@ export class PostListComponent implements OnInit {
 	}
 
 	refreshList() {
-	    this.showLoading(true);
         this.progressService.start();
         this.postService.list(this.pageSize, this.page, this.criteria,
             this.searchInput).subscribe(
             data => {
                 this.posts = data;
-                this.showLoading(false);
                 this.progressService.done();
             },
             error => {
                 this.error = "Could not list posts";
-                this.showLoading(false);
                 this.progressService.done();
             }
         );
@@ -99,24 +92,19 @@ export class PostListComponent implements OnInit {
 
     removePost(id: number) {
 	    console.log(`ID`, id);
-        this.postService.remove(id).subscribe(
+	    this.postService.remove(id).subscribe(
             data => {
                 this.snackBar.open("Post removido com sucesso", "OK");
                 this.refreshList();
             },
             error => this.snackBar.open("Erro: " + error._body, "OK")
-        );debugger;
+        );
     }
 
     userIsAdmin(): boolean {
         if (sessionStorage['permissionid'] == "3")
             return true;
         return false;
-    }
-
-    showLoading(loading: boolean): void {
-	    console.log("loading: " + loading);
-	    this.loader.loading = loading;
     }
 
 }

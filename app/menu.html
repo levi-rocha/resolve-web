@@ -1,7 +1,6 @@
 <div [hidden]="!isLogged()" class="top-fixed">
     <md-toolbar color="primary" class="container">
-
-        <button md-button [routerLink]="['/post-list']">Home</button>
+        <button md-button [routerLink]="['/post-list']"><img src="/app/img/logo-menu2.png"></button>
         <span class="mat-spacer"></span>
         <button md-button [mdMenuTriggerFor]="menu" id="main-menu-toggle"><img
                 src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}} <b class="caret"></b></button>
@@ -25,5 +24,6 @@
 <div class="top-margin"></div>
 
 <div class="container">
+    <ng-progress></ng-progress>
     <router-outlet></router-outlet>
 </div>

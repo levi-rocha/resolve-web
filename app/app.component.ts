@@ -1,6 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {SigninService} from './services/signin-service';
 import {Router} from "@angular/router";
+import {NgProgressService} from "ngx-progressbar";
 
 @Component({
     selector: 'meu-app',
@@ -9,13 +10,8 @@ import {Router} from "@angular/router";
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-    constructor(private signinService: SigninService, private router: Router) {
-        // this.signinService.loggedUser.subscribe(
-        //   value => {
-        //     this.loggedUsername = value;
-        //     console.log("loggedUser changed: " + value);
-        //   }, error => console.log("error")
-        // );
+    constructor(private signinService: SigninService, private router: Router,
+                public progressService: NgProgressService) {
     }
 
     static isLogged(): boolean {
@@ -23,7 +19,6 @@ export class AppComponent {
     }
 
     isLogged(): boolean {
-
         return AppComponent.isLogged();
     }
 

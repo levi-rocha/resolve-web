@@ -13,7 +13,7 @@ export class SigninService {
 
     error: string;
 
-    loggedUser = new BehaviorSubject("");
+    //loggedUser = new BehaviorSubject("");
     private router: Router;
 
     constructor(private http: Http) {}
@@ -37,7 +37,7 @@ export class SigninService {
 
     signOut() {
         delete sessionStorage['username'];
-        this.loggedUser.next("");
+        //this.loggedUser.next("");
         this.router.navigate(['/signIn']);
     }
 

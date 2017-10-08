@@ -24,10 +24,9 @@ export class SigninComponent {
                 private signinService: SigninService,
                 public snackBar: MdSnackBar,
                 private progressService: NgProgressService) {
-        this.progressService.start();
+	    /*
 		this.signinService.loggedUser.subscribe(
 			value => {
-                this.progressService.done();
 				if (value != "") {
 					this.router.navigate(['']);
 				}
@@ -35,9 +34,9 @@ export class SigninComponent {
 			error => {
 				this.error = "Could not log in";
 				this.snackBar.open("Falha ao efetuar login", "OK");
-                this.progressService.done();
 			}
 		);
+		*/
 	}
 
 	signIn() {

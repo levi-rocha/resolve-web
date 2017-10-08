@@ -307,3 +307,9 @@ img.displayed{
     background-color: #d9d9d9;
 
 }
+
+/* Progress bar */
+.spinner {
+    position: fixed;
+    left: 50% !important;
+}
