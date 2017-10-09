@@ -8,7 +8,7 @@
         <md-menu #menu="mdMenu">
             <button md-menu-item><img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
             <button md-menu-item *ngIf="userIsAdmin()" [routerLink]="['/report-list']">Reports</button>
-            <button md-menu-item (click)="signOut()">Sair</button>
+            <button md-menu-item (click)="signOut()" >Sair</button>
         </md-menu>
     </md-toolbar>
 </div>
@@ -17,8 +17,10 @@
 
         <button md-button [routerLink]="['/post-list']"><img src="/app/img/logo-menu2.png"></button>
         <span class="mat-spacer"></span>
+
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInModal" data-backdrop="static" data-keyboard="false" >Login</button>
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signUpModal" >Cadastro</button>
+
     </md-toolbar>
 </div>
 
@@ -28,18 +30,18 @@
     <router-outlet></router-outlet>
 </div>
 
-<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Cadastre-se!</h4>
+                <h4 class="modal-title" id="exampleModalLabel1">Cadastre-se!</h4>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="recipient-name" class="control-label">Usuario:</label>
-                        <input class="form-control"  id="recipient-name" name="username" placeholder="Usuario" [(ngModel)]="user.username" (blur)="onBlur()" required />
+                        <label for="recipient-name1" class="control-label">Usuario:</label>
+                        <input class="form-control"  id="recipient-name1" name="username" placeholder="Usuario" [(ngModel)]="user.username" (blur)="onBlur()" required />
                         <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
                     </div>
                     <div class="form-group">
@@ -47,8 +49,8 @@
                         <input type="email" class="form-control" name="email" placeholder="Usuario" [(ngModel)]="user.email" required />
                     </div>
                     <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
-                        <label for="message-text" class="control-label">Senha:</label>
-                        <input type="password" class="form-control" id="message-text" name="senha"  placeholder="Senha" [(ngModel)]="user.password" required />
+                        <label for="message-text1" class="control-label">Senha:</label>
+                        <input type="password" class="form-control" id="message-text1" name="senha"  placeholder="Senha" [(ngModel)]="user.password" required />
                     </div>
                     <div class="form-group">
                         <label>Tipo de usuario:</label>
