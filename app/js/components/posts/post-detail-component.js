@@ -129,6 +129,15 @@ var PostDetailComponent = (function () {
         else
             this.showSolutions = true;
     };
+    PostDetailComponent.prototype.removePostDetail = function (id) {
+        var _this = this;
+        console.log("ID", id);
+        this.postService.remove(id).subscribe(function (data) {
+            _this.snackBar.open("Post removido com sucesso", "OK");
+            _this.router.navigate(['/post-list']);
+        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+        debugger;
+    };
     return PostDetailComponent;
 }());
 PostDetailComponent = __decorate([
