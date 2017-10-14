@@ -16,23 +16,24 @@ var material_1 = require("@angular/material");
 var ngx_progressbar_1 = require("ngx-progressbar");
 var SigninComponent = (function () {
     function SigninComponent(router, signinService, snackBar, progressService) {
-        var _this = this;
         this.router = router;
         this.signinService = signinService;
         this.snackBar = snackBar;
         this.progressService = progressService;
         this.gClientID = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
-        this.progressService.start();
-        this.signinService.loggedUser.subscribe(function (value) {
-            _this.progressService.done();
-            if (value != "") {
-                _this.router.navigate(['']);
+        /*
+        this.signinService.loggedUser.subscribe(
+            value => {
+                if (value != "") {
+                    this.router.navigate(['']);
+                }
+            },
+            error => {
+                this.error = "Could not log in";
+                this.snackBar.open("Falha ao efetuar login", "OK");
             }
-        }, function (error) {
-            _this.error = "Could not log in";
-            _this.snackBar.open("Falha ao efetuar login", "OK");
-            _this.progressService.done();
-        });
+        );
+        */
     }
     SigninComponent.prototype.signIn = function () {
         this.signUserIn(this.username, this.password);
@@ -53,18 +54,9 @@ var SigninComponent = (function () {
         this.auth2.attachClickHandler(element, {}, function (googleUser) {
             //TODO: verificar se cadastrado: se não, cadastrar.
             var profile = googleUser.getBasicProfile();
-<<<<<<< HEAD
-            console.log('Token || ' + googleUser.getAuthResponse().id_token);
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-            //TODO: verificar se cadastrado: se não, cadastrar. se sim, logar.
-=======
             var username = profile.getName();
             var password = profile.getId();
             _this.signUserIn(username, password);
->>>>>>> loading implementado
         }, function (error) {
             alert(JSON.stringify(error, undefined, 2));
         });
