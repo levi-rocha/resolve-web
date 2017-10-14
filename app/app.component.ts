@@ -6,6 +6,8 @@ import {UserService} from './services/user-service';
 import {MdSnackBar} from "@angular/material";
 import {Permission} from "./models/permission";
 import {Location} from "@angular/common";
+import {NgProgressService} from 'ngx-progressbar';
+declare const gapi: any;
 
 @Component({
     selector: 'meu-app',
@@ -18,21 +20,20 @@ export class AppComponent implements OnInit{
                 private router: Router,
                 private _location: Location,
                 private userService: UserService,
-                public snackBar: MdSnackBar) {
-        this.signinService.loggedUser.subscribe(
-            value => {
-                console.log(value);
-                if (value != "") {
-                    this.router.navigate(['']);
-                }
-            },
-            error => {
-                this.error = "Could not log in";
-                this.snackBar.open("Falha ao efetuar login", "OK");
-            }
-        );
-
-
+                public snackBar: MdSnackBar,
+                private progressService: NgProgressService) {
+        // this.signinService.loggedUser.subscribe(
+        //     value => {
+        //         console.log(value);
+        //         if (value != "") {
+        //             this.router.navigate(['']);
+        //         }
+        //     },
+        //     error => {
+        //         this.error = "Could not log in";
+        //         this.snackBar.open("Falha ao efetuar login", "OK");
+        //     }
+        // );
     }
 
     private user: User;
@@ -41,6 +42,8 @@ export class AppComponent implements OnInit{
     private username: string;
     private password: string;
     private permissions: Permission[];
+    private gClientID: string = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
+    public auth2: any;
 
 
     static isLogged(): boolean {
@@ -48,7 +51,6 @@ export class AppComponent implements OnInit{
     }
 
     isLogged(): boolean {
-
         return AppComponent.isLogged();
     }
 
@@ -83,31 +85,73 @@ export class AppComponent implements OnInit{
             new Permission(2, "professional"),
         ];
     }
+    
     signIn() {
-        this.signinService.signIn(this.username, this.password).subscribe(
-            user => {
-                if (user != null) {
-                    sessionStorage['username'] = user.username;
-                    sessionStorage['userid'] = user.id;
-                    sessionStorage['permissionid'] = user.permission.id;
-                    this.router.navigate(['']);
-                }
+		this.signUserIn(this.username, this.password);
+	}
+
+	public googleInit() {
+		gapi.load('auth2', () => {
+			this.auth2 = gapi.auth2.init({
+				client_id: this.gClientID,
+				cookiepolicy: 'single_host_origin',
+				scope: 'profile email'
+			});
+			this.attachSignin(document.getElementById('googleBtn'));
+		});
+	}
+
+	public attachSignin(element) {
+		this.auth2.attachClickHandler(element, {},
+			(googleUser) => {
+				//TODO: verificar se cadastrado: se não, cadastrar.
+				let profile = googleUser.getBasicProfile();
+				let username = profile.getName();
+				let password = profile.getId();
+				this.signUserIn(username, password);
+			}, (error) => {
+				alert(JSON.stringify(error, undefined, 2));
+			});
+	}
+
+	public signUserIn(username: string, passsword: string) {
+        this.progressService.start();
+		this.signinService.signIn(username, passsword).subscribe(
+			user => {
+                this.progressService.done();
+				if (user != null) {
+					sessionStorage['username'] = user.username;
+					sessionStorage['userid'] = user.id;
+					sessionStorage['permissionid'] = user.permission.id;
+					this.router.navigate(['']);
+				}
+			},
+			error => {
+                this.progressService.done();
+				this.snackBar.open("Erro: " + error, "OK");
+			}
+		);
+    }
+    
+    
+    public signUserUp(user: User) {
+        this.progressService.start();
+        this.userService.insert(user).subscribe(
+            data => {
+                this.snackBar.open("Usuario cadastrado com suceso", "OK");
+                this.progressService.done();
+                this.router.navigate(['/post-list']);
             },
             error => {
-                this.snackBar.open("Erro: " + error, "OK");
+                this.snackBar.open("Erro: " + error._body, "OK");
+                this.progressService.done();
             }
         );
     }
 
-    signUp() {
-        this.userService.insert(this.user).subscribe(
-            data => {
-                this.snackBar.open("Usuario cadastrado com suceso", "OK");
-                this.router.navigate(['/user-list']);
-            },
-            error => this.snackBar.open("Erro: " + error._body, "OK")
-        );
-    }
+	ngAfterViewInit(){
+		this.googleInit();
+	}
 
     onBlur() {
         this.userService.findByUsername(this.user.username).subscribe(

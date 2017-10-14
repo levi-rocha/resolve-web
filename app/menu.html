@@ -1,6 +1,6 @@
 <div [hidden]="!isLogged()" class="top-fixed">
+    <ng-progress></ng-progress>
     <md-toolbar color="primary" class="container">
-
         <button md-button [routerLink]="['/post-list']">Home</button>
         <span class="mat-spacer"></span>
         <button md-button [mdMenuTriggerFor]="menu" id="main-menu-toggle"><img
@@ -38,6 +38,7 @@
                 <h4 class="modal-title" id="exampleModalLabel1">Cadastre-se!</h4>
             </div>
             <div class="modal-body">
+                <div id="googleBtn" class="g-signin2">Google</div>
                 <form>
                     <div class="form-group">
                         <label for="recipient-name1" class="control-label">Usuario:</label>
@@ -80,6 +81,7 @@
                 <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
             </div>
             <div class="modal-body">
+                <div id="googleBtn" class="g-signin2">Google</div>
                 <form>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">Usuario:</label>

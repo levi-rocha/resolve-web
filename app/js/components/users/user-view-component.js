@@ -13,16 +13,25 @@ var core_1 = require("@angular/core");
 var user_1 = require("../../models/user");
 var user_service_1 = require("../../services/user-service");
 var router_1 = require("@angular/router");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var UserViewComponent = (function () {
-    function UserViewComponent(route, userService) {
+    function UserViewComponent(route, userService, progressService) {
         this.route = route;
         this.userService = userService;
+        this.progressService = progressService;
     }
     UserViewComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.user = new user_1.User();
         this.username = this.route.snapshot.params['username'];
-        this.userService.findByUsername(this.username).subscribe(function (data) { return _this.user = data; }, function (error) { return _this.error = "Could not find user"; });
+        this.progressService.start();
+        this.userService.findByUsername(this.username).subscribe(function (data) {
+            _this.user = data;
+            _this.progressService.done();
+        }, function (error) {
+            _this.error = "Could not find user";
+            _this.progressService.done();
+        });
     };
     return UserViewComponent;
 }());
@@ -33,7 +42,8 @@ UserViewComponent = __decorate([
         providers: [user_service_1.UserService]
     }),
     __metadata("design:paramtypes", [router_1.ActivatedRoute,
-        user_service_1.UserService])
+        user_service_1.UserService,
+        ngx_progressbar_1.NgProgressService])
 ], UserViewComponent);
 exports.UserViewComponent = UserViewComponent;
 //# sourceMappingURL=user-view-component.js.map

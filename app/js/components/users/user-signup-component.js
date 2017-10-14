@@ -16,12 +16,14 @@ var user_service_1 = require("../../services/user-service");
 var router_1 = require("@angular/router");
 var material_1 = require("@angular/material");
 var permission_1 = require("../../models/permission");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var UserSignupComponent = (function () {
-    function UserSignupComponent(_location, router, userService, snackBar) {
+    function UserSignupComponent(_location, router, userService, snackBar, progressService) {
         this._location = _location;
         this.router = router;
         this.userService = userService;
         this.snackBar = snackBar;
+        this.progressService = progressService;
         this.gClientID = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
     }
     UserSignupComponent.prototype.goBack = function () {
@@ -36,18 +38,17 @@ var UserSignupComponent = (function () {
         ];
     };
     UserSignupComponent.prototype.signUp = function () {
-        var _this = this;
-        this.userService.insert(this.user).subscribe(function (data) {
-            _this.snackBar.open("Usuario cadastrado com suceso", "OK");
-            _this.router.navigate(['/post-list']);
-        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+        this.signUserUp(this.user);
     };
     UserSignupComponent.prototype.onBlur = function () {
         var _this = this;
+        this.progressService.start();
         this.userService.findByUsername(this.user.username).subscribe(function (data) {
             _this.usernameTaken = true;
+            _this.progressService.done();
         }, function (error) {
             _this.usernameTaken = false;
+            _this.progressService.done();
         });
     };
     UserSignupComponent.prototype.googleInit = function () {
@@ -62,16 +63,29 @@ var UserSignupComponent = (function () {
         });
     };
     UserSignupComponent.prototype.attachSignin = function (element) {
+        var _this = this;
         this.auth2.attachClickHandler(element, {}, function (googleUser) {
             var profile = googleUser.getBasicProfile();
-            console.log('Token || ' + googleUser.getAuthResponse().id_token);
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-            //TODO: criar user e cadastrar
+            var newUser = new user_1.User();
+            newUser.username = profile.getName();
+            newUser.email = profile.getEmail();
+            newUser.password = profile.getId();
+            newUser.permission = new permission_1.Permission(1);
+            _this.signUserUp(newUser);
         }, function (error) {
             alert(JSON.stringify(error, undefined, 2));
+        });
+    };
+    UserSignupComponent.prototype.signUserUp = function (user) {
+        var _this = this;
+        this.progressService.start();
+        this.userService.insert(user).subscribe(function (data) {
+            _this.snackBar.open("Usuario cadastrado com suceso", "OK");
+            _this.progressService.done();
+            _this.router.navigate(['/post-list']);
+        }, function (error) {
+            _this.snackBar.open("Erro: " + error._body, "OK");
+            _this.progressService.done();
         });
     };
     UserSignupComponent.prototype.ngAfterViewInit = function () {
@@ -88,7 +102,8 @@ UserSignupComponent = __decorate([
     __metadata("design:paramtypes", [common_1.Location,
         router_1.Router,
         user_service_1.UserService,
-        material_1.MdSnackBar])
+        material_1.MdSnackBar,
+        ngx_progressbar_1.NgProgressService])
 ], UserSignupComponent);
 exports.UserSignupComponent = UserSignupComponent;
 //# sourceMappingURL=user-signup-component.js.map

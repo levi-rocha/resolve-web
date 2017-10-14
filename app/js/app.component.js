@@ -17,23 +17,28 @@ var user_service_1 = require("./services/user-service");
 var material_1 = require("@angular/material");
 var permission_1 = require("./models/permission");
 var common_1 = require("@angular/common");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var AppComponent = AppComponent_1 = (function () {
-    function AppComponent(signinService, router, _location, userService, snackBar) {
-        var _this = this;
+    function AppComponent(signinService, router, _location, userService, snackBar, progressService) {
         this.signinService = signinService;
         this.router = router;
         this._location = _location;
         this.userService = userService;
         this.snackBar = snackBar;
-        this.signinService.loggedUser.subscribe(function (value) {
-            console.log(value);
-            if (value != "") {
-                _this.router.navigate(['']);
-            }
-        }, function (error) {
-            _this.error = "Could not log in";
-            _this.snackBar.open("Falha ao efetuar login", "OK");
-        });
+        this.progressService = progressService;
+        this.gClientID = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
+        // this.signinService.loggedUser.subscribe(
+        //     value => {
+        //         console.log(value);
+        //         if (value != "") {
+        //             this.router.navigate(['']);
+        //         }
+        //     },
+        //     error => {
+        //         this.error = "Could not log in";
+        //         this.snackBar.open("Falha ao efetuar login", "OK");
+        //     }
+        // );
     }
     AppComponent.isLogged = function () {
         return sessionStorage['username'] != null;
@@ -68,8 +73,36 @@ var AppComponent = AppComponent_1 = (function () {
         ];
     };
     AppComponent.prototype.signIn = function () {
+        this.signUserIn(this.username, this.password);
+    };
+    AppComponent.prototype.googleInit = function () {
         var _this = this;
-        this.signinService.signIn(this.username, this.password).subscribe(function (user) {
+        gapi.load('auth2', function () {
+            _this.auth2 = gapi.auth2.init({
+                client_id: _this.gClientID,
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile email'
+            });
+            _this.attachSignin(document.getElementById('googleBtn'));
+        });
+    };
+    AppComponent.prototype.attachSignin = function (element) {
+        var _this = this;
+        this.auth2.attachClickHandler(element, {}, function (googleUser) {
+            //TODO: verificar se cadastrado: se não, cadastrar.
+            var profile = googleUser.getBasicProfile();
+            var username = profile.getName();
+            var password = profile.getId();
+            _this.signUserIn(username, password);
+        }, function (error) {
+            alert(JSON.stringify(error, undefined, 2));
+        });
+    };
+    AppComponent.prototype.signUserIn = function (username, passsword) {
+        var _this = this;
+        this.progressService.start();
+        this.signinService.signIn(username, passsword).subscribe(function (user) {
+            _this.progressService.done();
             if (user != null) {
                 sessionStorage['username'] = user.username;
                 sessionStorage['userid'] = user.id;
@@ -77,15 +110,24 @@ var AppComponent = AppComponent_1 = (function () {
                 _this.router.navigate(['']);
             }
         }, function (error) {
+            _this.progressService.done();
             _this.snackBar.open("Erro: " + error, "OK");
         });
     };
-    AppComponent.prototype.signUp = function () {
+    AppComponent.prototype.signUserUp = function (user) {
         var _this = this;
-        this.userService.insert(this.user).subscribe(function (data) {
+        this.progressService.start();
+        this.userService.insert(user).subscribe(function (data) {
             _this.snackBar.open("Usuario cadastrado com suceso", "OK");
-            _this.router.navigate(['/user-list']);
-        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+            _this.progressService.done();
+            _this.router.navigate(['/post-list']);
+        }, function (error) {
+            _this.snackBar.open("Erro: " + error._body, "OK");
+            _this.progressService.done();
+        });
+    };
+    AppComponent.prototype.ngAfterViewInit = function () {
+        this.googleInit();
     };
     AppComponent.prototype.onBlur = function () {
         var _this = this;
@@ -108,7 +150,8 @@ AppComponent = AppComponent_1 = __decorate([
         router_1.Router,
         common_1.Location,
         user_service_1.UserService,
-        material_1.MdSnackBar])
+        material_1.MdSnackBar,
+        ngx_progressbar_1.NgProgressService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 var AppComponent_1;
