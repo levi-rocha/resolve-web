@@ -8,6 +8,7 @@ import {AppComponent} from "../../app.component";
 import {User} from "../../models/user";
 import {Solution} from "../../models/solution";
 import {Report} from "../../models/report";
+import {NgProgressService} from 'ngx-progressbar';
 
 @Component({
     selector: 'post-detail',
@@ -32,7 +33,8 @@ export class PostDetailComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private postService: PostService,
-        public snackBar: MdSnackBar) {
+        public snackBar: MdSnackBar,
+        private progressService: NgProgressService) {
     }
 
     ngOnInit() {
@@ -52,9 +54,16 @@ export class PostDetailComponent implements OnInit {
     private reloadPost() {
         this.post = new Post();
         this.post.id = +this.route.snapshot.params['id'];
+        this.progressService.start();
         this.postService.get(this.post.id).subscribe(
-            data => this.post = data,
-            error => this.snackBar.open("Não foi possível carregar o post", "OK")
+            data => {
+                this.post = data;
+                this.progressService.done();
+            },
+            error => {
+                this.snackBar.open("Não foi possível carregar o post", "OK");
+                this.progressService.done();
+            }
         );
     }
 
@@ -65,12 +74,17 @@ export class PostDetailComponent implements OnInit {
         comment.author.username = AppComponent.loggedUsername();
         comment.post = new Post();
         comment.post.id = this.post.id;
+        this.progressService.start();
         this.postService.addComment(comment).subscribe(
             data => {
                 this.newComment = null;
+                this.progressService.done();
                 this.reloadPost();
             },
-            error => this.snackBar.open("Erro ao enviar comentário", "OK")
+            error => {
+                this.snackBar.open("Erro ao enviar comentário", "OK");
+                this.progressService.done();
+            }
         )
     }
 
@@ -81,12 +95,17 @@ export class PostDetailComponent implements OnInit {
        solution.author.username = AppComponent.loggedUsername();
        solution.post = new Post();
        solution.post.id = this.post.id;
+       this.progressService.start();
        this.postService.addSolution(solution).subscribe(
            data => {
                this.newSolution = null;
+               this.progressService.done();
                this.reloadPost();
            },
-           error => this.snackBar.open("Erro ao enviar solucao", "OK")
+           error => {
+               this.snackBar.open("Erro ao enviar solucao", "OK");
+               this.progressService.done();
+           }
        );
     }
 
@@ -94,9 +113,16 @@ export class PostDetailComponent implements OnInit {
         if (!this.isLogged()) {
             this.router.navigate(['/signIn']);
         } else {
+            this.progressService.start();
             this.postService.addVote(sessionStorage['username'], this.post.id).subscribe(
-                data => this.reloadPost(),
-                error => this.snackBar.open('Erro:' + error, "OK")
+                data => {
+                    this.progressService.done();
+                    this.reloadPost();
+                },
+                error => {
+                    this.snackBar.open('Erro:' + error, "OK");
+                    this.progressService.done();
+                }
             );
         }
 
@@ -116,14 +142,19 @@ export class PostDetailComponent implements OnInit {
         report.author.username = AppComponent.loggedUsername();
         report.post = new Post();
         report.post.id = this.post.id;
+        this.progressService.start();
         this.postService.addFlag(report).subscribe(
             data => {
                 this.newFlag = null;
                 this.toggleShowFlag();
-                this.reloadPost();
                 this.snackBar.open('Post reportado com sucesso', "OK");
+                this.progressService.done();
+                this.reloadPost();
             },
-            error => this.snackBar.open('Erro:' + error, "OK")
+            error => {
+                this.snackBar.open('Erro:' + error, "OK");
+                this.progressService.done();
+            }
         );
     }
 

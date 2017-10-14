@@ -13,10 +13,12 @@ var core_1 = require("@angular/core");
 var post_service_1 = require("../../services/post-service");
 var app_component_1 = require("../../app.component");
 var material_1 = require("@angular/material");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var PostListComponent = (function () {
-    function PostListComponent(postService, snackBar) {
+    function PostListComponent(postService, snackBar, progressService) {
         this.postService = postService;
         this.snackBar = snackBar;
+        this.progressService = progressService;
         this.page = 0;
         this.pageSize = 5;
     }
@@ -30,7 +32,14 @@ var PostListComponent = (function () {
     };
     PostListComponent.prototype.refreshList = function () {
         var _this = this;
-        this.postService.list(this.pageSize, this.page, this.criteria, this.searchInput).subscribe(function (data) { return _this.posts = data; }, function (error) { return _this.error = "Could not list posts"; });
+        this.progressService.start();
+        this.postService.list(this.pageSize, this.page, this.criteria, this.searchInput).subscribe(function (data) {
+            _this.posts = data;
+            _this.progressService.done();
+        }, function (error) {
+            _this.error = "Could not list posts";
+            _this.progressService.done();
+        });
     };
     PostListComponent.prototype.onSearch = function () {
         this.page = 0;
@@ -70,7 +79,6 @@ var PostListComponent = (function () {
             _this.snackBar.open("Post removido com sucesso", "OK");
             _this.refreshList();
         }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
-        debugger;
     };
     PostListComponent.prototype.userIsAdmin = function () {
         if (sessionStorage['permissionid'] == "3")
@@ -86,7 +94,8 @@ PostListComponent = __decorate([
         providers: [post_service_1.PostService]
     }),
     __metadata("design:paramtypes", [post_service_1.PostService,
-        material_1.MdSnackBar])
+        material_1.MdSnackBar,
+        ngx_progressbar_1.NgProgressService])
 ], PostListComponent);
 exports.PostListComponent = PostListComponent;
 //# sourceMappingURL=post-list-component.js.map
