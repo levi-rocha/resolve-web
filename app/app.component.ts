@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import {SigninService} from './services/signin-service';
-import {Router} from "@angular/router";
+import {Router, NavigationEnd} from "@angular/router";
 import {User} from './models/user';
 import {UserService} from './services/user-service';
 import {MdSnackBar} from "@angular/material";
@@ -8,11 +8,12 @@ import {Permission} from "./models/permission";
 import {Location} from "@angular/common";
 import {NgProgressService} from 'ngx-progressbar';
 declare const gapi: any;
+declare var jQuery:any;
 
 @Component({
     selector: 'meu-app',
     templateUrl: 'app/menu.html',
-    providers: [SigninService, UserService, MdSnackBar],
+    providers: [SigninService, UserService, MdSnackBar, NgProgressService],
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit{
@@ -22,18 +23,6 @@ export class AppComponent implements OnInit{
                 private userService: UserService,
                 public snackBar: MdSnackBar,
                 private progressService: NgProgressService) {
-        // this.signinService.loggedUser.subscribe(
-        //     value => {
-        //         console.log(value);
-        //         if (value != "") {
-        //             this.router.navigate(['']);
-        //         }
-        //     },
-        //     error => {
-        //         this.error = "Could not log in";
-        //         this.snackBar.open("Falha ao efetuar login", "OK");
-        //     }
-        // );
     }
 
     private user: User;
@@ -88,7 +77,11 @@ export class AppComponent implements OnInit{
     
     signIn() {
 		this.signUserIn(this.username, this.password);
-	}
+    }
+    
+    signUp() {
+        this.signUserUp(this.user);
+    }
 
 	public googleInit() {
 		gapi.load('auth2', () => {
@@ -97,18 +90,35 @@ export class AppComponent implements OnInit{
 				cookiepolicy: 'single_host_origin',
 				scope: 'profile email'
 			});
-			this.attachSignin(document.getElementById('googleBtn'));
+            this.attachSignin(document.getElementById('googleSignIn'));
+            this.attachSignin(document.getElementById('googleSignUp'));
 		});
 	}
 
 	public attachSignin(element) {
 		this.auth2.attachClickHandler(element, {},
 			(googleUser) => {
-				//TODO: verificar se cadastrado: se não, cadastrar.
-				let profile = googleUser.getBasicProfile();
-				let username = profile.getName();
-				let password = profile.getId();
-				this.signUserIn(username, password);
+                let profile = googleUser.getBasicProfile();
+                let username = profile.getName();
+                let password = profile.getId();
+                let email = profile.getEmail();
+                this.userService.findByEmail(email).subscribe(
+                    emailExists => {
+                        if (emailExists) {
+                            this.signUserIn(username, password);
+                        } else {
+                            let newUser: User = new User();
+                            newUser.username = username;
+                            newUser.email = email;
+                            newUser.password = password;
+                            newUser.permission = new Permission(1);
+                            this.signUserUp(newUser);
+                        }
+                    },
+                    error => {
+                        this.snackBar.open("Erro: " + error, "OK");
+                    }
+                );
 			}, (error) => {
 				alert(JSON.stringify(error, undefined, 2));
 			});
@@ -122,8 +132,13 @@ export class AppComponent implements OnInit{
 				if (user != null) {
 					sessionStorage['username'] = user.username;
 					sessionStorage['userid'] = user.id;
-					sessionStorage['permissionid'] = user.permission.id;
-					this.router.navigate(['']);
+                    sessionStorage['permissionid'] = user.permission.id;
+                    jQuery("#signUpModal").modal("hide");
+                    jQuery("#signInModal").modal("hide");
+                    // document.getElementById('close-signupmodal').click();
+                    // document.getElementById('close-signinmodal').click();
+                    // document.getElementById('logoButton').click();
+                    this.router.navigate(['/post-list']);
 				}
 			},
 			error => {
@@ -140,7 +155,7 @@ export class AppComponent implements OnInit{
             data => {
                 this.snackBar.open("Usuario cadastrado com suceso", "OK");
                 this.progressService.done();
-                this.router.navigate(['/post-list']);
+                this.signUserIn(user.username, user.password);
             },
             error => {
                 this.snackBar.open("Erro: " + error._body, "OK");

@@ -40,4 +40,9 @@ export class UserService {
         return this.http.get(url).map(res => res.json());
     }
 
+    findByEmail(email: string) {
+        let url = this.serviceUrl + '/verifyEmailTaken?email=' + email;
+        return this.http.get(url).map(res => res.json());
+    }
+
 }
