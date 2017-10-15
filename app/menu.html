@@ -1,7 +1,7 @@
 <div [hidden]="!isLogged()" class="top-fixed">
     <ng-progress></ng-progress>
     <md-toolbar color="primary" class="container">
-        <button md-button [routerLink]="['/post-list']"><img src="/app/img/logo-menu2.png"></button>
+        <button md-button id="logoButton" [routerLink]="['/post-list']"><img src="/app/img/logo-menu2.png"></button>
         <span class="mat-spacer"></span>
         <button md-button [mdMenuTriggerFor]="menu" id="main-menu-toggle"><img
                 src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}} <b class="caret"></b></button>
@@ -39,7 +39,7 @@
                 <h4 class="modal-title" id="exampleModalLabel1">Cadastre-se!</h4>
             </div>
             <div class="modal-body">
-                <div id="googleBtn" class="g-signin2">Google</div>
+                <button id="googleSignIn" class="g-signin2">Google</button>
                 <form>
                     <div class="form-group">
                         <label for="recipient-name1" class="control-label">Usuario:</label>
@@ -66,7 +66,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" [routerLink]="['/post-list']">Close</button>
+                <button id="close-signupmodal" type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
                 <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
             </div>
             <div class="modal-body">
-                <div id="googleBtn" class="g-signin2">Google</div>
+                <button id="googleSignUp" class="g-signin2">Google</button>
                 <form>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">Usuario:</label>
@@ -97,9 +97,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" [routerLink]="['/post-list']">Fechar</button>
+                <button id="close-signinmodal" type="button" class="btn btn-default" data-dismiss="modal" >Fechar</button>
                 <button (click)="signIn()" type="button" data-dismiss="modal" class="btn btn-primary">Entrar</button>
-                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
             </div>
         </div>
     </div>
