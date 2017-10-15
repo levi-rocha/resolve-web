@@ -12,7 +12,8 @@
         '@angular/platform-browser/animations': 'node_modules/@angular/platform-browser/bundles/platform-browser-animations.umd.js',
 	'@angular/cdk': 'node_modules/@angular/cdk/bundles/cdk.umd.js',
         '@angular/material': 'node_modules/@angular/material/bundles/material.umd.js',
-        'rxjs': 'node_modules/rxjs'
+        'rxjs': 'node_modules/rxjs',
+        'ngx-progressbar': 'node_modules/ngx-progressbar/bundles/ngx-progressbar.umd.js'
     };
 
     // mapeia os arquivos/extensões que o SystemJS deverá carregar

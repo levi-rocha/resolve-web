@@ -1,8 +1,8 @@
-<div class="post-list">
+<div class="post-list" ng-disabled='loader.loading'>
     <md-tab-group (selectChange)="onTabChange($event)">
-        <md-tab label="Latest">
+        <md-tab label="Últimos">
         </md-tab>
-        <md-tab label="Popular">
+        <md-tab label="Populares">
         </md-tab>
     </md-tab-group>
     <div class="search-area">
@@ -19,8 +19,8 @@
         </div>
     </div>
     <new-post *ngIf="isLogged()"></new-post>
-    <md-card *ngFor="let post of posts" [routerLink]="['/post/'+post.id]">
-        <md-card-header>
+    <md-card *ngFor="let post of posts" [routerLink]="['/post/'+post.id]" >
+        <md-card-header >
                 <md-card-title><h3>{{ post.title }}</h3></md-card-title>
         </md-card-header>
         <md-card-content>{{ post.contentPreview }}</md-card-content>
@@ -28,6 +28,7 @@
             <div class="post-actions post-likes-container">
                 <i class="material-icons md-18">thumb_up</i>
                 <div>{{post.voteCount}}</div>
+                
             </div>
             <div class="post-actions post-details">
                 <i class="material-icons md-18">record_voice_over</i>
@@ -48,3 +49,4 @@
         </span>
     </div>
 </div>
+

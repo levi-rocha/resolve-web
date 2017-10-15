@@ -2,6 +2,9 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { SigninService } from '../../services/signin-service';
 import {MdSnackBar} from "@angular/material";
+import { User } from "../../models/user";
+import {NgProgressService} from 'ngx-progressbar';
+declare const gapi: any;
 
 @Component({
 	selector: 'signIn',
@@ -12,13 +15,18 @@ export class SigninComponent {
 
 	private username: string;
 	private password: string;
+	private gClientID: string = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
+	public auth2: any;
 
 	error: string;
 
-	constructor(private router: Router, private signinService: SigninService, public snackBar: MdSnackBar) {
+	constructor(private router: Router,
+                private signinService: SigninService,
+                public snackBar: MdSnackBar,
+                private progressService: NgProgressService) {
+	    /*
 		this.signinService.loggedUser.subscribe(
 			value => {
-				console.log(value);
 				if (value != "") {
 					this.router.navigate(['']);
 				}
@@ -28,11 +36,42 @@ export class SigninComponent {
 				this.snackBar.open("Falha ao efetuar login", "OK");
 			}
 		);
+		*/
 	}
 
 	signIn() {
-		this.signinService.signIn(this.username, this.password).subscribe(
+		this.signUserIn(this.username, this.password);
+	}
+
+	public googleInit() {
+		gapi.load('auth2', () => {
+			this.auth2 = gapi.auth2.init({
+				client_id: this.gClientID,
+				cookiepolicy: 'single_host_origin',
+				scope: 'profile email'
+			});
+			this.attachSignin(document.getElementById('googleBtn'));
+		});
+	}
+
+	public attachSignin(element) {
+		this.auth2.attachClickHandler(element, {},
+			(googleUser) => {
+				//TODO: verificar se cadastrado: se não, cadastrar.
+				let profile = googleUser.getBasicProfile();
+				let username = profile.getName();
+				let password = profile.getId();
+				this.signUserIn(username, password);
+			}, (error) => {
+				alert(JSON.stringify(error, undefined, 2));
+			});
+	}
+
+	public signUserIn(username: string, passsword: string) {
+        this.progressService.start();
+		this.signinService.signIn(username, passsword).subscribe(
 			user => {
+                this.progressService.done();
 				if (user != null) {
 					sessionStorage['username'] = user.username;
 					sessionStorage['userid'] = user.id;
@@ -41,8 +80,13 @@ export class SigninComponent {
 				}
 			},
 			error => {
+                this.progressService.done();
 				this.snackBar.open("Erro: " + error, "OK");
 			}
 		);
+	}
+
+	ngAfterViewInit(){
+		this.googleInit();
 	}
 }

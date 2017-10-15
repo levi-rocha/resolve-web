@@ -19,12 +19,14 @@ var app_component_1 = require("../../app.component");
 var user_1 = require("../../models/user");
 var solution_1 = require("../../models/solution");
 var report_1 = require("../../models/report");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var PostDetailComponent = (function () {
-    function PostDetailComponent(router, route, postService, snackBar) {
+    function PostDetailComponent(router, route, postService, snackBar, progressService) {
         this.router = router;
         this.route = route;
         this.postService = postService;
         this.snackBar = snackBar;
+        this.progressService = progressService;
         this.showSolutions = true;
         this.showComments = true;
         this.showFlag = false;
@@ -35,11 +37,23 @@ var PostDetailComponent = (function () {
     PostDetailComponent.prototype.isLogged = function () {
         return app_component_1.AppComponent.isLogged();
     };
+    PostDetailComponent.prototype.userIsAdmin = function () {
+        if (sessionStorage['permissionid'] == "3")
+            return true;
+        return false;
+    };
     PostDetailComponent.prototype.reloadPost = function () {
         var _this = this;
         this.post = new post_1.Post();
         this.post.id = +this.route.snapshot.params['id'];
-        this.postService.get(this.post.id).subscribe(function (data) { return _this.post = data; }, function (error) { return _this.snackBar.open("Não foi possível carregar o post", "OK"); });
+        this.progressService.start();
+        this.postService.get(this.post.id).subscribe(function (data) {
+            _this.post = data;
+            _this.progressService.done();
+        }, function (error) {
+            _this.snackBar.open("Não foi possível carregar o post", "OK");
+            _this.progressService.done();
+        });
     };
     PostDetailComponent.prototype.submitNewComment = function () {
         var _this = this;
@@ -49,10 +63,15 @@ var PostDetailComponent = (function () {
         comment.author.username = app_component_1.AppComponent.loggedUsername();
         comment.post = new post_1.Post();
         comment.post.id = this.post.id;
+        this.progressService.start();
         this.postService.addComment(comment).subscribe(function (data) {
             _this.newComment = null;
+            _this.progressService.done();
             _this.reloadPost();
-        }, function (error) { return _this.snackBar.open("Erro ao enviar comentário", "OK"); });
+        }, function (error) {
+            _this.snackBar.open("Erro ao enviar comentário", "OK");
+            _this.progressService.done();
+        });
     };
     PostDetailComponent.prototype.submitNewSolution = function () {
         var _this = this;
@@ -62,10 +81,15 @@ var PostDetailComponent = (function () {
         solution.author.username = app_component_1.AppComponent.loggedUsername();
         solution.post = new post_1.Post();
         solution.post.id = this.post.id;
+        this.progressService.start();
         this.postService.addSolution(solution).subscribe(function (data) {
             _this.newSolution = null;
+            _this.progressService.done();
             _this.reloadPost();
-        }, function (error) { return _this.snackBar.open("Erro ao enviar solucao", "OK"); });
+        }, function (error) {
+            _this.snackBar.open("Erro ao enviar solucao", "OK");
+            _this.progressService.done();
+        });
     };
     PostDetailComponent.prototype.voteOnPost = function () {
         var _this = this;
@@ -73,7 +97,14 @@ var PostDetailComponent = (function () {
             this.router.navigate(['/signIn']);
         }
         else {
-            this.postService.addVote(sessionStorage['username'], this.post.id).subscribe(function (data) { return _this.reloadPost(); }, function (error) { return _this.snackBar.open('Erro:' + error, "OK"); });
+            this.progressService.start();
+            this.postService.addVote(sessionStorage['username'], this.post.id).subscribe(function (data) {
+                _this.progressService.done();
+                _this.reloadPost();
+            }, function (error) {
+                _this.snackBar.open('Erro:' + error, "OK");
+                _this.progressService.done();
+            });
         }
     };
     PostDetailComponent.prototype.toggleShowFlag = function () {
@@ -90,12 +121,17 @@ var PostDetailComponent = (function () {
         report.author.username = app_component_1.AppComponent.loggedUsername();
         report.post = new post_1.Post();
         report.post.id = this.post.id;
+        this.progressService.start();
         this.postService.addFlag(report).subscribe(function (data) {
             _this.newFlag = null;
             _this.toggleShowFlag();
-            _this.reloadPost();
             _this.snackBar.open('Post reportado com sucesso', "OK");
-        }, function (error) { return _this.snackBar.open('Erro:' + error, "OK"); });
+            _this.progressService.done();
+            _this.reloadPost();
+        }, function (error) {
+            _this.snackBar.open('Erro:' + error, "OK");
+            _this.progressService.done();
+        });
     };
     PostDetailComponent.prototype.getVotes = function () {
         if (this.post.voteIds != null)
@@ -124,6 +160,15 @@ var PostDetailComponent = (function () {
         else
             this.showSolutions = true;
     };
+    PostDetailComponent.prototype.removePostDetail = function (id) {
+        var _this = this;
+        console.log("ID", id);
+        this.postService.remove(id).subscribe(function (data) {
+            _this.snackBar.open("Post removido com sucesso", "OK");
+            _this.router.navigate(['/post-list']);
+        }, function (error) { return _this.snackBar.open("Erro: " + error._body, "OK"); });
+        debugger;
+    };
     return PostDetailComponent;
 }());
 PostDetailComponent = __decorate([
@@ -135,7 +180,8 @@ PostDetailComponent = __decorate([
     __metadata("design:paramtypes", [router_1.Router,
         router_1.ActivatedRoute,
         post_service_1.PostService,
-        material_1.MdSnackBar])
+        material_1.MdSnackBar,
+        ngx_progressbar_1.NgProgressService])
 ], PostDetailComponent);
 exports.PostDetailComponent = PostDetailComponent;
 //# sourceMappingURL=post-detail-component.js.map

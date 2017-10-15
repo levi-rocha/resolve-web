@@ -13,25 +13,59 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var signin_service_1 = require("../../services/signin-service");
 var material_1 = require("@angular/material");
+var ngx_progressbar_1 = require("ngx-progressbar");
 var SigninComponent = (function () {
-    function SigninComponent(router, signinService, snackBar) {
-        var _this = this;
+    function SigninComponent(router, signinService, snackBar, progressService) {
         this.router = router;
         this.signinService = signinService;
         this.snackBar = snackBar;
-        this.signinService.loggedUser.subscribe(function (value) {
-            console.log(value);
-            if (value != "") {
-                _this.router.navigate(['']);
+        this.progressService = progressService;
+        this.gClientID = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
+        /*
+        this.signinService.loggedUser.subscribe(
+            value => {
+                if (value != "") {
+                    this.router.navigate(['']);
+                }
+            },
+            error => {
+                this.error = "Could not log in";
+                this.snackBar.open("Falha ao efetuar login", "OK");
             }
-        }, function (error) {
-            _this.error = "Could not log in";
-            _this.snackBar.open("Falha ao efetuar login", "OK");
-        });
+        );
+        */
     }
     SigninComponent.prototype.signIn = function () {
+        this.signUserIn(this.username, this.password);
+    };
+    SigninComponent.prototype.googleInit = function () {
         var _this = this;
-        this.signinService.signIn(this.username, this.password).subscribe(function (user) {
+        gapi.load('auth2', function () {
+            _this.auth2 = gapi.auth2.init({
+                client_id: _this.gClientID,
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile email'
+            });
+            _this.attachSignin(document.getElementById('googleBtn'));
+        });
+    };
+    SigninComponent.prototype.attachSignin = function (element) {
+        var _this = this;
+        this.auth2.attachClickHandler(element, {}, function (googleUser) {
+            //TODO: verificar se cadastrado: se não, cadastrar.
+            var profile = googleUser.getBasicProfile();
+            var username = profile.getName();
+            var password = profile.getId();
+            _this.signUserIn(username, password);
+        }, function (error) {
+            alert(JSON.stringify(error, undefined, 2));
+        });
+    };
+    SigninComponent.prototype.signUserIn = function (username, passsword) {
+        var _this = this;
+        this.progressService.start();
+        this.signinService.signIn(username, passsword).subscribe(function (user) {
+            _this.progressService.done();
             if (user != null) {
                 sessionStorage['username'] = user.username;
                 sessionStorage['userid'] = user.id;
@@ -39,8 +73,12 @@ var SigninComponent = (function () {
                 _this.router.navigate(['']);
             }
         }, function (error) {
+            _this.progressService.done();
             _this.snackBar.open("Erro: " + error, "OK");
         });
+    };
+    SigninComponent.prototype.ngAfterViewInit = function () {
+        this.googleInit();
     };
     return SigninComponent;
 }());
@@ -50,7 +88,10 @@ SigninComponent = __decorate([
         templateUrl: 'app/views/signin.html',
         providers: [signin_service_1.SigninService, material_1.MdSnackBar]
     }),
-    __metadata("design:paramtypes", [router_1.Router, signin_service_1.SigninService, material_1.MdSnackBar])
+    __metadata("design:paramtypes", [router_1.Router,
+        signin_service_1.SigninService,
+        material_1.MdSnackBar,
+        ngx_progressbar_1.NgProgressService])
 ], SigninComponent);
 exports.SigninComponent = SigninComponent;
 //# sourceMappingURL=signin-component.js.map

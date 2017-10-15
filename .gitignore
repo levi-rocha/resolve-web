@@ -6,3 +6,9 @@
 
 ### node ###
 node_modules/
+
+### vs code ###
+.vscode
+
+### js gerado por tsc ###
+app/js
