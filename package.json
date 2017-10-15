@@ -4,12 +4,10 @@
   "description": "",
   "scripts": {
     "start": "node-sass app/sass -o app/css && tsc && concurrently \"tsc -w\" \"node server.js\" ",
-    "lite": "lite-server",
-    "postinstall": "typings install",
+    "build": "node-sass app/sass -o app/css && tsc",
+    "dev": "concurrently \"tsc -w\" \"lite-server\"",
     "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings",
-    "build-css": "node-sass app/sass -o app/css"
+    "tsc:w": "tsc -w"
   },
   "keywords": [],
   "author": "Levi Rocha",
@@ -32,23 +30,21 @@
     "@angular/router": "4.3.5",
     "@angular/upgrade": "4.3.5",
     "bootstrap": "3.3.7",
-    "canonical-path": "0.0.2",
     "concurrently": "3.4.0",
     "core-js": "2.4.1",
     "express": "4.15.4",
-    "http-server": "0.10.0",
     "jquery": "3.2.1",
-    "lite-server": "2.3.0",
     "ngx-bootstrap": "^1.9.3",
     "ngx-progressbar": "^2.0.8",
     "node-sass": "4.5.3",
-    "reflect-metadata": "0.1.10",
+    "reflect-metadata": "^0.1.10",
     "rxjs": "5.4.0",
     "systemjs": "0.20.12",
     "typescript": "2.3.4",
-    "typings": "2.1.1",
-    "zone.js": "0.8.11"
+    "zone.js": "^0.8.18"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "lite-server": "2.3.0"
+  },
   "repository": {}
 }

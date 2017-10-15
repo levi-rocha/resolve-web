@@ -1,1 +1,0 @@
-{"version":3,"file":"post-comment.js","sourceRoot":"","sources":["../../models/post-comment.ts"],"names":[],"mappings":";;AAGA;IACI,qBACW,EAAW,EACX,OAAgB,EAChB,MAAa,EACb,cAAuB,EACvB,IAAW;QAJX,OAAE,GAAF,EAAE,CAAS;QACX,YAAO,GAAP,OAAO,CAAS;QAChB,WAAM,GAAN,MAAM,CAAO;QACb,mBAAc,GAAd,cAAc,CAAS;QACvB,SAAI,GAAJ,IAAI,CAAO;IACpB,CAAC;IACP,kBAAC;AAAD,CAAC,AARD,IAQC;AARY,kCAAW"}

@@ -1,20 +1,16 @@
-import {BrowserModule} from "@angular/platform-browser";
-import {AppComponent} from "./app.component";
-import {FormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
-import {NgModule} from "@angular/core";
-import {APP_ROUTES} from "./app-routes";
-import {AUTH_PROVIDERS} from "./components/auth/signin-routes";
-import {RouterModule} from "@angular/router";
-import {UserListComponent} from "./components/users/user-list-component";
-import {NewPostComponent} from "./components/posts/new-post-component";
-import {UserEditComponent} from "./components/users/user-edit-component";
-import {UserViewComponent} from "./components/users/user-view-component";
-import {PostListComponent} from "./components/posts/post-list-component";
-import {PostDetailComponent} from "./components/posts/post-detail-component";
-import {ReportListComponent} from "./components/posts/report-list-component";
-import {AuthGuard} from "./auth-guard";
-import {SigninService} from "./services/signin-service";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppComponent } from "./app.component";
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { NgModule } from "@angular/core";
+import { APP_ROUTES } from "./app-routes";
+import { RouterModule } from "@angular/router";
+import { NewPostComponent } from "./components/posts/new-post-component";
+import { PostListComponent } from "./components/posts/post-list-component";
+import { PostDetailComponent } from "./components/posts/post-detail-component";
+import { ReportListComponent } from "./components/posts/report-list-component";
+import { AuthGuard } from "./auth-guard";
+import { SigninService } from "./services/signin-service";
 import { NgProgressModule } from 'ngx-progressbar';
 
 import {
@@ -31,13 +27,12 @@ import {
     MdIconModule,
     MdSelectModule
 } from "@angular/material";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule.forRoot(APP_ROUTES, AUTH_PROVIDERS),
+        RouterModule.forRoot(APP_ROUTES),
         FormsModule,
         HttpModule,
         MdButtonModule,
@@ -57,9 +52,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ],
     declarations: [
         AppComponent,
-        UserListComponent,
-        UserEditComponent,
-        UserViewComponent,
         NewPostComponent,
         PostListComponent,
         PostDetailComponent,

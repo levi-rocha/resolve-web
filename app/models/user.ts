@@ -1,4 +1,4 @@
-import {Permission} from './permission';
+import { Permission } from './permission';
 
 export class User {
     constructor(
@@ -6,5 +6,5 @@ export class User {
         public username?: string,
         public password?: string,
         public email?: string,
-        public permission?: Permission){}
+        public permission?: Permission) { }
 }
