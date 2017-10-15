@@ -16,8 +16,6 @@ import {NgProgressService} from 'ngx-progressbar';
     providers: [PostService, MdSnackBar]
 })
 export class PostDetailComponent implements OnInit {
-
-
     private post: Post;
     private newComment: string;
     private newSolution: string;
@@ -26,8 +24,6 @@ export class PostDetailComponent implements OnInit {
     private showSolutions: boolean = true;
     private showComments: boolean = true;
     private showFlag: boolean = false;
-
-
 
     constructor(
         private router: Router,
@@ -189,6 +185,7 @@ export class PostDetailComponent implements OnInit {
         else
             this.showSolutions = true;
     }
+    
     removePostDetail(id: number) {
         console.log(`ID`, id);
         this.postService.remove(id).subscribe(
@@ -197,7 +194,7 @@ export class PostDetailComponent implements OnInit {
                 this.router.navigate(['/post-list']);
             },
             error => this.snackBar.open("Erro: " + error._body, "OK")
-        );debugger;
+        );
     }
 
 }
