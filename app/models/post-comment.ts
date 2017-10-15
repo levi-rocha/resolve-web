@@ -1,5 +1,5 @@
-import {User} from "./user";
-import {Post} from "./post";
+import { User } from "./user";
+import { Post } from "./post";
 
 export class PostComment {
     constructor(
@@ -8,5 +8,5 @@ export class PostComment {
         public author?: User,
         public authorUsername?: string,
         public post?: Post
-    ){}
+    ) { }
 }

@@ -1,16 +1,15 @@
-import {Injectable} from '@angular/core';
-import {User} from '../models/user';
-import {Http, Headers, RequestOptions } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { User } from '../models/user';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class UserService {
-
     serviceUrl: string = "https://resolve-rest.herokuapp.com/users";
 
-    constructor(private http: Http) {
-
-    }
+    constructor(private http: Http) { }
 
     listAll() {
         return this.http.get(this.serviceUrl).map(res => res.json());

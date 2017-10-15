@@ -1,6 +1,6 @@
 import { User } from "./user";
-import {Solution} from "./solution";
-import {PostComment} from "./post-comment";
+import { Solution } from "./solution";
+import { PostComment } from "./post-comment";
 
 export class Post {
     constructor(
@@ -14,5 +14,5 @@ export class Post {
         public voteCount?: number,
         public comments?: PostComment[],
         public solutions?: Solution[]
-    ){}
+    ) { }
 }
