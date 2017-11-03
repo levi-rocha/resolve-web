@@ -48,7 +48,8 @@
                 <h4 class="modal-title" id="exampleModalLabel1">Cadastre-se!</h4>
             </div>
             <div class="modal-body">
-                <button id="googleSignIn" class="g-signin2">Google</button>
+ 
+                
                 <form>
                     <div class="form-group">
                         <label for="recipient-name1" class="control-label">Usuario:</label>
@@ -56,8 +57,7 @@
                             required />
                         <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
                     </div>
-                    <div class="form-group">
-                        <label>E-mail</label>
+                    <div class="form-group">                        <label>E-mail</label>
                         <input type="email" class="form-control" name="email" placeholder="Usuario" [(ngModel)]="user.email" required />
                     </div>
                     <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
@@ -95,7 +95,7 @@
                 <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
             </div>
             <div class="modal-body">
-                <button id="googleSignUp" class="g-signin2">Google</button>
+                <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
                 <form>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">Usuario:</label>
