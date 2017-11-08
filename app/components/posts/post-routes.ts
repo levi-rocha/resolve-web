@@ -4,6 +4,7 @@ import { PostListComponent } from "./post-list-component";
 import { AuthGuard } from "../../auth-guard";
 import { PostDetailComponent } from "./post-detail-component";
 import { ReportListComponent } from "./report-list-component";
+import { UserPostsListComponent } from "./user-posts-list.component";
 
 export const PostRoutes: Routes = [
 	{
@@ -28,5 +29,10 @@ export const PostRoutes: Routes = [
 		path: '',
 		redirectTo: '/post-list',
 		pathMatch: 'full'
+	},
+	{
+		path: 'user-posts-list/:id',
+		component: UserPostsListComponent,
+		canActivate: [AuthGuard]
 	}
 ];

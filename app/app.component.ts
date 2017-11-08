@@ -1,12 +1,14 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { SigninService } from './services/signin-service';
 import { Router, NavigationEnd } from "@angular/router";
 import { User } from './models/user';
+import { SigninModalService } from './services/signin-modal.service';
 import { UserService } from './services/user-service';
 import { MdSnackBar } from "@angular/material";
 import { Permission } from "./models/permission";
 import { Location } from "@angular/common";
-import { NgProgressService } from 'ngx-progressbar';
+import { NgProgressService } from 'ngx-progressbar';    
+
 declare const gapi: any;
 declare var jQuery: any;
 
@@ -17,13 +19,18 @@ declare var jQuery: any;
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
+
+    @ViewChild('templateModalSignIn') templateModalSignIn;
+
     constructor(private signinService: SigninService,
         private router: Router,
         private _location: Location,
         private userService: UserService,
         public snackBar: MdSnackBar,
-        private progressService: NgProgressService) {
+        private progressService: NgProgressService,
+        private siginModalService:SigninModalService) {
     }
+
 
     private user: User;
     error: string;
@@ -34,6 +41,9 @@ export class AppComponent implements OnInit {
     private gClientID: string = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
     public auth2: any;
 
+    userPosts() {
+        this.router.navigate(['user-posts-list', sessionStorage["userid"]]);
+    }
 
     static isLogged(): boolean {
         return sessionStorage['username'] != null;
@@ -77,6 +87,7 @@ export class AppComponent implements OnInit {
 
     signIn() {
         this.signUserIn(this.username, this.password);
+        this.siginModalService.close();
     }
 
     signUp() {
@@ -166,6 +177,7 @@ export class AppComponent implements OnInit {
 
     ngAfterViewInit() {
         this.googleInit();
+        this.siginModalService.template = this.templateModalSignIn;
     }
 
     onBlur() {

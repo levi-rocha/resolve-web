@@ -5,10 +5,12 @@
             <img src="/app/img/logo-menu2.png">
         </button>
         <span class="mat-spacer"></span>
-        <button md-button [mdMenuTriggerFor]="menu" id="main-menu-toggle">
-            <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}
+        <md-menu #menuUser="mdMenuUser">
+            <button md-menu-item [mdMenuTriggerFor]="menu" id="main-menu-toggle">
+            <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
             <b class="caret"></b>
-        </button>
+            <button md-menu-item (click)="userPosts()">Perfil</button>
+        </md-menu>
         <md-menu #menu="mdMenu">
             <button md-menu-item>
                 <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
@@ -27,7 +29,7 @@
 
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInModal" data-backdrop="static" data-keyboard="false">Login</button>
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signUpModal">Cadastro</button>
-
+        <!-- <button class="btn btn-primary btn-lg" href="#signup" data-toggle="modal" data-target=".bs-modal-md">Entrar/Cadastro</button> -->
     </md-toolbar>
 </div>
 
@@ -48,7 +50,7 @@
                 <h4 class="modal-title" id="exampleModalLabel1">Cadastre-se!</h4>
             </div>
             <div class="modal-body">
-                <button id="googleSignIn" class="g-signin2">Google</button>
+
                 <form>
                     <div class="form-group">
                         <label for="recipient-name1" class="control-label">Usuario:</label>
@@ -58,7 +60,7 @@
                     </div>
                     <div class="form-group">
                         <label>E-mail</label>
-                        <input type="email" class="form-control" name="email" placeholder="Usuario" [(ngModel)]="user.email" required />
+                        <input type="email" class="form-control" name="email" placeholder="E-mail" [(ngModel)]="user.email" required />
                     </div>
                     <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
                         <label for="message-text1" class="control-label">Senha:</label>
@@ -85,7 +87,7 @@
 </div>
 
 
-<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div #signInModal class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -95,7 +97,7 @@
                 <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
             </div>
             <div class="modal-body">
-                <button id="googleSignUp" class="g-signin2">Google</button>
+                <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
                 <form>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">Usuario:</label>
@@ -117,3 +119,155 @@
         </div>
     </div>
 </div>
+
+
+
+
+<ng-template #templateModalSignIn>
+    <div class="modal-header">
+
+        <button type="button" class="close pull-right" aria-label="Close" (click)="signinModalService.close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
+    </div>
+    <div class="modal-body">
+        <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
+        <form>
+            <div class="form-group">
+                <label for="recipient-name" class="control-label">Usuario:</label>
+                <input class="form-control" id="recipient-name" name="username" [(ngModel)]="username" placeholder="Usuário" required />
+
+            </div>
+            <div class="form-group">
+                <label for="message-text" class="control-label">Senha:</label>
+                <input type="password" class="form-control" id="message-text" name="password" [(ngModel)]="password" placeholder="Senha"
+                    required />
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button id="close-signinmodal" type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button (click)="signIn()" type="button" data-dismiss="modal" class="btn btn-primary">Entrar</button>
+    </div>
+</ng-template>
+
+
+
+<!-- Modal
+<div class="modal fade bs-modal-md" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <br>
+          <div class="bs-example bs-example-tabs">
+              <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#signin" data-toggle="tab">Entrar</a></li>
+                <li class=""><a href="#signup" data-toggle="tab">Cadastro</a></li>
+              </ul>
+          </div>
+        <div class="modal-body">
+          <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade active in" id="signin">
+              
+              <form class="form-horizontal">
+              <fieldset>
+               Sign In Form 
+               Username Text input
+              <div class="control-group">
+                    <label class="control-label" for="userid">Usuário:</label>
+                    <div class="controls">
+                      <input id="userid" name="userid" class="form-control" type="text" [(ngModel)]="username" placeholder="Usuário" class="input-large" required="">
+                    </div>
+              </div>
+                  
+               Password input
+              <div class="control-group">
+                    <label class="control-label" for="password">Senha:</label>
+                    <div class="controls">
+                      <input id="password" name="password" class="form-control" type="password" [(ngModel)]="password" placeholder="Senha" class="input-large" required="">
+                      <em>1-8 Characters</em>
+                    </div>
+              </div>
+    
+               Button 
+              <div class="control-group">
+                    <label class="control-label" for="signin"></label>
+                    <div class="controls">
+                      <button id="signin" name="signup" class="btn btn-success" (click)="signIn()">Entrar</button>
+                      <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
+                    </div>
+                              
+              </div>
+              </fieldset>
+              </form>
+                    
+          </div>
+          <div class="tab-pane fade" id="signup">
+              <form class="form-horizontal">
+              <fieldset>
+               Sign Up Form 
+               Text input
+              <div class="control-group">
+                <label class="control-label" for="userid">Usuário:</label>
+                <div class="controls">
+                  <input required="" id="userid" name="userid" type="text" class="form-control" placeholder="Usuario" [(ngModel)]="user.username" (blur)="onBlur()" class="input-medium" required="">
+                  <div *ngIf="usernameTaken" class="mat-input-error">Usurário ja existe!</div>
+                </div>
+              </div>
+
+               E-mail input 
+              <div class="control-group">
+                <label class="control-label" for="e-mail">E-mail:</label>
+                <div class="controls">
+                  <input required="" id="emailinput" name="emailinput" type="text" class="form-control" placeholder="E-mail" [(ngModel)]="user.email" class="input-medium" required="">
+                </div>
+              </div>
+                
+              Password input
+              <div class="control-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
+                <label class="control-label" for="passwordinput">Senha:</label>
+                <div class="controls">
+                  <input required="" id="passwordinput" name="passwordinput" class="form-control" type="password" placeholder="********" [(ngModel)]="user.password" class="input-medium">
+                </div>
+              </div>
+
+               Text input
+               <div class="control-group">
+                <label class="control-label" for="reenterpassword">Confirme senha:</label>
+                <div class="controls">
+                  <input id="reenterpassword" class="form-control" name="reenterpassword" type="password" placeholder="********" class="input-large" required="">
+                </div>
+              </div>
+
+              User type
+              <div class="control-group">
+                <label>Tipo de usuario:</label>
+                <select [(ngModel)]="user.permission" name="permission" class="form-control">
+                    <option [value]="0" [selected]="!user.permission">Escolha...</option>
+                    <option *ngFor="let permission of permissions" [value]="permission.id">
+                        {{permission.name}}
+                    </option>
+                </select>
+              </div>
+
+              Button 
+              <div class="control-group">
+                    <label class="control-label" for="confirmsignup"></label>
+                    <div class="controls">
+                      <button id="confirmsignup" name="confirmsignup" class="btn btn-success" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
+                    </div>
+              </div>
+              </fieldset>
+              </form>        
+        </div>
+      </div>
+        </div>
+        <div class="modal-footer">
+        <div >
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div> -->

@@ -9,6 +9,7 @@ import {User} from "../../models/user";
 import {Solution} from "../../models/solution";
 import {Report} from "../../models/report";
 import {NgProgressService} from 'ngx-progressbar';
+import {SigninModalService} from '../../services/signin-modal.service';
 
 @Component({
     selector: 'post-detail',
@@ -30,7 +31,8 @@ export class PostDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private postService: PostService,
         public snackBar: MdSnackBar,
-        private progressService: NgProgressService) {
+        private progressService: NgProgressService,
+        private siginModalService:SigninModalService) {
     }
 
     ngOnInit() {
@@ -107,7 +109,8 @@ export class PostDetailComponent implements OnInit {
 
     voteOnPost() {
         if (!this.isLogged()) {
-            this.router.navigate(['/signIn']);
+            this.siginModalService.open();
+            // this.router.navigate(['/signIn']);
         } else {
             this.progressService.start();
             this.postService.addVote(sessionStorage['username'], this.post.id).subscribe(

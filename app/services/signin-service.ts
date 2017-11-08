@@ -18,6 +18,8 @@ export class SigninService {
         return this.http
             .post(this.serviceUrl, { username: username, password: password })
             .map((res) => res.json())
-            .catch((error: any) => Observable.throw(error._body));
+            .catch((error: any) => {
+                console.log(error);
+                return Observable.throw(error._body)});
     }
 }

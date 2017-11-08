@@ -1,0 +1,21 @@
+<!-- <div *ngFor="let post of listaPosts">
+    <label for="">{{post.usuario.nome}}</label>
+    <p>{{post.texto}}</p>
+</div> -->
+<md-card *ngFor="let post of listaPosts" >
+    <md-card-header >
+            <md-card-title><h3>{{ post.title }}</h3></md-card-title>
+    </md-card-header>
+    <md-card-content>{{ post.contentPreview }}</md-card-content>
+    <md-card-actions>
+        <div class="post-actions post-likes-container">
+            <i class="material-icons md-18">thumb_up</i>
+            <div>{{post.voteCount}}</div>
+            
+        </div>
+        <div class="post-actions post-details">
+            <i class="material-icons md-18">record_voice_over</i>
+            <div>{{post.authorUsername}}</div>
+        </div>
+    </md-card-actions>
+</md-card>
