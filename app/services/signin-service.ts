@@ -14,9 +14,9 @@ export class SigninService {
     error: string;
     constructor(private http: Http, private router: Router) { }
 
-    signIn(username: string, password: string): Observable<User> {
+    signIn(email: string, password: string): Observable<User> {
         return this.http
-            .post(this.serviceUrl, { username: username, password: password })
+            .post(this.serviceUrl, { email: email, password: password })
             .map((res) => res.json())
             .catch((error: any) => {
                 console.log(error);

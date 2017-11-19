@@ -5,16 +5,14 @@
             <img src="/app/img/logo-menu2.png">
         </button>
         <span class="mat-spacer"></span>
-        <md-menu #menuUser="mdMenuUser">
-            <button md-menu-item [mdMenuTriggerFor]="menu" id="main-menu-toggle">
-            <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
-            <b class="caret"></b>
-            <button md-menu-item (click)="userPosts()">Perfil</button>
-        </md-menu>
+        <button md-menu-item [mdMenuTriggerFor]="menu" id="main-menu-toggle">
+        <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
+        <b class="caret"></b>
         <md-menu #menu="mdMenu">
             <button md-menu-item>
                 <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
             <button md-menu-item *ngIf="userIsAdmin()" [routerLink]="['/report-list']">Reports</button>
+            <button md-menu-item (click)="userPosts()">Perfil</button>
             <button md-menu-item (click)="signOut()">Sair</button>
         </md-menu>
     </md-toolbar>
@@ -54,15 +52,16 @@
                 <form>
                     <div class="form-group">
                         <label for="recipient-name1" class="control-label">Usuario:</label>
-                        <input class="form-control" id="recipient-name1" name="username" placeholder="Usuario" [(ngModel)]="user.username" (blur)="onBlur()"
+                        <input class="form-control" id="recipient-name1" name="username" placeholder="Usuario" [(ngModel)]="user.username" 
                             required />
-                        <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div>
+                        <!-- <div *ngIf="usernameTaken" class="mat-input-error">Username ja existe!</div> -->
                     </div>
                     <div class="form-group">
                         <label>E-mail</label>
-                        <input type="email" class="form-control" name="email" placeholder="E-mail" [(ngModel)]="user.email" required />
+                        <input type="email" class="form-control" name="email" placeholder="E-mail" [(ngModel)]="user.email" (blur)='onBlur()' required />
+                        <div *ngIf="emailTaken" class="mat-input-error">Você ja possui uma conta vinculada a este e-mail!</div>
                     </div>
-                    <div class="form-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
+                    <div class="form-group" [ngClass]="{'mat-input-invalid':emailTaken}">
                         <label for="message-text1" class="control-label">Senha:</label>
                         <input type="password" class="form-control" id="message-text1" name="senha" placeholder="Senha" [(ngModel)]="user.password"
                             required />
@@ -71,7 +70,7 @@
                         <label>Tipo de usuario:</label>
                         <select [(ngModel)]="user.permission" name="permission" class="form-control">
                             <option [value]="0" [selected]="!user.permission">Escolha...</option>
-                            <option *ngFor="let permission of permissions" [value]="permission.id">
+                            <option *ngFor="let permission of permissions" [ngValue]="permission">
                                 {{permission.name}}
                             </option>
                         </select>
@@ -80,7 +79,7 @@
             </div>
             <div class="modal-footer">
                 <button id="close-signupmodal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" [disabled]="usernameTaken" (click)="signUp()">Cadastrar</button>
+                <button class="btn btn-primary" [disabled]="emailTaken" (click)="signUp()">Cadastrar</button>
             </div>
         </div>
     </div>
@@ -100,8 +99,8 @@
                 <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
                 <form>
                     <div class="form-group">
-                        <label for="recipient-name" class="control-label">Usuario:</label>
-                        <input class="form-control" id="recipient-name" name="username" [(ngModel)]="username" placeholder="Usuário" required />
+                        <label for="recipient-name" class="control-label">E-mail:</label>
+                        <input class="form-control" id="recipient-name" name="email" [(ngModel)]="email" placeholder="E-mail" required />
 
                     </div>
                     <div class="form-group">
@@ -169,10 +168,10 @@
         <div class="modal-body">
           <div id="myTabContent" class="tab-content">
           <div class="tab-pane fade active in" id="signin">
-              
+
               <form class="form-horizontal">
               <fieldset>
-               Sign In Form 
+               Sign In Form
                Username Text input
               <div class="control-group">
                     <label class="control-label" for="userid">Usuário:</label>
@@ -180,7 +179,7 @@
                       <input id="userid" name="userid" class="form-control" type="text" [(ngModel)]="username" placeholder="Usuário" class="input-large" required="">
                     </div>
               </div>
-                  
+
                Password input
               <div class="control-group">
                     <label class="control-label" for="password">Senha:</label>
@@ -189,24 +188,24 @@
                       <em>1-8 Characters</em>
                     </div>
               </div>
-    
-               Button 
+
+               Button
               <div class="control-group">
                     <label class="control-label" for="signin"></label>
                     <div class="controls">
                       <button id="signin" name="signup" class="btn btn-success" (click)="signIn()">Entrar</button>
                       <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
                     </div>
-                              
+
               </div>
               </fieldset>
               </form>
-                    
+
           </div>
           <div class="tab-pane fade" id="signup">
               <form class="form-horizontal">
               <fieldset>
-               Sign Up Form 
+               Sign Up Form
                Text input
               <div class="control-group">
                 <label class="control-label" for="userid">Usuário:</label>
@@ -216,14 +215,14 @@
                 </div>
               </div>
 
-               E-mail input 
+               E-mail input
               <div class="control-group">
                 <label class="control-label" for="e-mail">E-mail:</label>
                 <div class="controls">
                   <input required="" id="emailinput" name="emailinput" type="text" class="form-control" placeholder="E-mail" [(ngModel)]="user.email" class="input-medium" required="">
                 </div>
               </div>
-                
+
               Password input
               <div class="control-group" [ngClass]="{'mat-input-invalid':usernameTaken}">
                 <label class="control-label" for="passwordinput">Senha:</label>
@@ -251,7 +250,7 @@
                 </select>
               </div>
 
-              Button 
+              Button
               <div class="control-group">
                     <label class="control-label" for="confirmsignup"></label>
                     <div class="controls">
@@ -259,7 +258,7 @@
                     </div>
               </div>
               </fieldset>
-              </form>        
+              </form>
         </div>
       </div>
         </div>

@@ -34,7 +34,8 @@ export class AppComponent implements OnInit {
 
     private user: User;
     error: string;
-    private usernameTaken: boolean;
+    private emailTaken: boolean;
+    private email: string;
     private username: string;
     private password: string;
     private permissions: Permission[];
@@ -78,7 +79,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.user = new User();
-        this.usernameTaken = false;
+        this.emailTaken = false;
         this.permissions = [
             new Permission(1, "standard"),
             new Permission(2, "professional"),
@@ -86,7 +87,7 @@ export class AppComponent implements OnInit {
     }
 
     signIn() {
-        this.signUserIn(this.username, this.password);
+        this.signUserIn(this.email, this.password);
         this.siginModalService.close();
     }
 
@@ -116,7 +117,7 @@ export class AppComponent implements OnInit {
                 this.userService.findByEmail(email).subscribe(
                     emailExists => {
                         if (emailExists) {
-                            this.signUserIn(username, password);
+                            this.signUserIn(email, password);
                         } else {
                             let newUser: User = new User();
                             newUser.username = username;
@@ -135,9 +136,9 @@ export class AppComponent implements OnInit {
             });
     }
 
-    public signUserIn(username: string, passsword: string) {
+    public signUserIn(email: string, passsword: string) {
         this.progressService.start();
-        this.signinService.signIn(username, passsword).subscribe(
+        this.signinService.signIn(email, passsword).subscribe(
             user => {
                 this.progressService.done();
                 if (user != null) {
@@ -166,7 +167,7 @@ export class AppComponent implements OnInit {
             data => {
                 this.snackBar.open("Usuario cadastrado com suceso", "OK");
                 this.progressService.done();
-                this.signUserIn(user.username, user.password);
+                this.signUserIn(user.email, user.password);
             },
             error => {
                 this.snackBar.open("Erro: " + error._body, "OK");
@@ -181,12 +182,12 @@ export class AppComponent implements OnInit {
     }
 
     onBlur() {
-        this.userService.findByUsername(this.user.username).subscribe(
+        this.userService.findByEmail(this.user.email).subscribe(
             data => {
-                this.usernameTaken = true;
+                this.emailTaken = data;
             },
             error => {
-                this.usernameTaken = false;
+                this.emailTaken = false;
             }
         );
     }
