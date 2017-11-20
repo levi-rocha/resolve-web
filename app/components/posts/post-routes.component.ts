@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { NewPostComponent } from "./new-post-component";
-import { PostListComponent } from "./post-list-component";
+import { NewPostComponent } from "./new-post.component";
+import { PostListComponent } from "./post-list.component";
 import { AuthGuard } from "../../auth-guard";
-import { PostDetailComponent } from "./post-detail-component";
-import { ReportListComponent } from "./report-list-component";
+import { PostDetailComponent } from "./post-detail.component";
+import { ReportListComponent } from "./report-list.component";
 import { UserPostsListComponent } from "./user-posts-list.component";
 
 export const PostRoutes: Routes = [
