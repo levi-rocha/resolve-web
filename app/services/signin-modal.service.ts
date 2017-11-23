@@ -6,14 +6,19 @@ import { BsModalRef } from 'ngx-bootstrap';
 export class SigninModalService {
 
     template: TemplateRef<any>;
-    signinModal:BsModalRef;
+    signinModal: BsModalRef;
+   
+
+
     constructor(private bsModalService:BsModalService){}
 
     open(){
-        this.signinModal = this.bsModalService.show(this.template)
+        this.signinModal = this.bsModalService.show(this.template);
+       
     }
 
     close(){
         this.signinModal.hide();
+        
     }
 }

@@ -104,6 +104,10 @@ div.page-navigation i {
     bottom:   -72px;
 }
 
+.test{
+    width: 20%;
+}
+
 md-tab-group, md-tab-group div {
     height: 40px;
 }
@@ -126,6 +130,8 @@ md-tab-group, md-tab-group div {
     min-width: 20px;
     line-height: 32px;
 }
+
+
 
 md-list-item {
     padding: auto;

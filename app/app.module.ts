@@ -10,7 +10,7 @@ import { PostListComponent } from "./components/posts/post-list.component";
 import { PostDetailComponent } from "./components/posts/post-detail.component";
 import { ReportListComponent } from "./components/posts/report-list.component";
 import { AuthGuard } from "./auth-guard.component";
-import { SigninService } from "./services/signin-service";
+import { SigninService } from "./services/signin.service";
 import { NgProgressModule } from 'ngx-progressbar';
 import { ModalModule } from 'ngx-bootstrap';
 

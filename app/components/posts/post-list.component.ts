@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Post} from "../../models/post";
-import {PostService} from "../../services/post-service";
+import {PostService} from "../../services/post.service";
 import {AppComponent} from "../../app.component";
 import {MdSnackBar} from "@angular/material";
 import {NgProgressService} from 'ngx-progressbar';

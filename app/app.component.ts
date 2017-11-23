@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { SigninService } from './services/signin-service';
+import { SigninService } from './services/signin.service';
 import { Router, NavigationEnd } from "@angular/router";
 import { User } from './models/user';
 import { SigninModalService } from './services/signin-modal.service';
-import { UserService } from './services/user-service';
+import { UserService } from './services/user.service';
 import { MdSnackBar } from "@angular/material";
 import { Permission } from "./models/permission";
 import { Location } from "@angular/common";
@@ -147,6 +147,7 @@ export class AppComponent implements OnInit {
                     sessionStorage['permissionid'] = user.permission.id;
                     jQuery("#signUpModal").modal("hide");
                     jQuery("#signInModal").modal("hide");
+                    
                     // document.getElementById('close-signupmodal').click();
                     // document.getElementById('close-signinmodal').click();
                     // document.getElementById('logoButton').click();
