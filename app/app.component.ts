@@ -103,7 +103,6 @@ export class AppComponent implements OnInit {
                 scope: 'profile email'
             });
             this.attachSignin(document.getElementById('googleSignIn'));
-            this.attachSignin(document.getElementById('googleSignUp'));
         });
     }
 
@@ -132,7 +131,7 @@ export class AppComponent implements OnInit {
                     }
                 );
             }, (error) => {
-                alert(JSON.stringify(error, undefined, 2));
+                alert("nao deu");
             });
     }
 
@@ -146,7 +145,7 @@ export class AppComponent implements OnInit {
                     sessionStorage['userid'] = user.id;
                     sessionStorage['permissionid'] = user.permission.id;
                     jQuery("#signUpModal").modal("hide");
-                    jQuery("#signInModal").modal("hide");
+                    this.siginModalService.close();
                     
                     // document.getElementById('close-signupmodal').click();
                     // document.getElementById('close-signinmodal').click();
@@ -161,12 +160,16 @@ export class AppComponent implements OnInit {
         );
     }
 
+    public openModal() {
+        this.siginModalService.open();
+        this.googleInit();
+    }
 
     public signUserUp(user: User) {
         this.progressService.start();
         this.userService.insert(user).subscribe(
             data => {
-                this.snackBar.open("Usuario cadastrado com suceso", "OK");
+                this.snackBar.open("Usuario cadastrado com sucesso", "OK");
                 this.progressService.done();
                 this.signUserIn(user.email, user.password);
             },
@@ -178,8 +181,9 @@ export class AppComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        this.googleInit();
+        
         this.siginModalService.template = this.templateModalSignIn;
+        
     }
 
     onBlur() {

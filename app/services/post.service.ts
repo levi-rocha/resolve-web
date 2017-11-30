@@ -68,11 +68,11 @@ export class PostService {
         return this.http.post(this.solutionsUrl, body, options).map(res => res.text());
     }
 
-    addVote(username: string, postId: number) {
+    addVote(id: number, postId: number) {
         let url = this.serviceUrl + '/vote';
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        let body = JSON.stringify({username: username, postId: postId});
+        let body = JSON.stringify({userId: id, postId: postId});
         return this.http
             .post(url, body, options)
             .map((res) => res.json())

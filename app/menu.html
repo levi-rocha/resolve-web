@@ -5,14 +5,14 @@
             <img src="/app/img/logo-menu2.png">
         </button>
         <span class="mat-spacer"></span>
-        <button md-menu-item [mdMenuTriggerFor]="menu" id="main-menu-toggle" class="test">
+        <button md-button [mdMenuTriggerFor]="menu" id="main-menu-toggle">
         <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
         
         <b class="caret"></b>
         <md-menu #menu="mdMenu" >
             <button md-menu-item>
                 <img src="http://lorempixel.com/36/36/animals"> {{loggedUsername()}}</button>
-            <button md-menu-item *ngIf="userIsAdmin()" [routerLink]="['/report-list']" >Reports</button>
+            <button md-menu-item *ngIf="userIsAdmin()" [routerLink]="['/report-list']">Denúncias</button>
             <button md-menu-item (click)="userPosts()">Perfil</button>
             <button md-menu-item (click)="signOut()">Sair</button>
         </md-menu>
@@ -26,7 +26,7 @@
         </button>
         <span class="mat-spacer"></span>
 
-        <button type="button" class="btn btn-link" data-toggle="modal" data-backdrop="static" (click)="siginModalService.open()"  data-keyboard="false">Login</button>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-backdrop="static" (click)="openModal()"  data-keyboard="false">Login</button>
         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signUpModal">Cadastro</button>
         <!-- <button class="btn btn-primary btn-lg" href="#signup" data-toggle="modal" data-target=".bs-modal-md">Entrar/Cadastro</button>  -->
     </md-toolbar>
@@ -132,7 +132,7 @@
         <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
     </div>
     <div class="modal-body">
-        <button id="googleSignUp" class="loginBtn loginBtn--google">Google</button>
+        <button id="googleSignIn" class="loginBtn loginBtn--google">Google</button>
         <form>
             <div class="form-group">
                 <label for="recipient-name" class="control-label">E-mail:</label>
@@ -148,7 +148,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button (click)="signinModalService.close()" type="button" class="btn btn-default" >Fechar</button>
+        <button (click)="siginModalService.close()" type="button" class="btn btn-default" >Fechar</button>
         <button (click)="signIn()" type="button" data-dismiss="modal" class="btn btn-primary">Entrar</button>
     </div>
 </ng-template>

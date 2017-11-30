@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Post} from "../../models/post";
-import {PostService} from "../../services/post-service";
+import {PostService} from "../../services/post.service";
 import {Router} from "@angular/router";
 import {AppComponent} from "../../app.component";
 import {User} from "../../models/user";
@@ -27,7 +27,7 @@ export class NewPostComponent implements OnInit {
     submit() {
         this.progressService.start();
         this.post.author = new User();
-        this.post.author.username = AppComponent.loggedUsername();
+        this.post.author.id = sessionStorage["userid"];
         this.postService.insert(this.post).subscribe(
             data => {
                 this.router.navigate(['/post/' + data.id]);
