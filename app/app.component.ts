@@ -1,12 +1,14 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { SigninService } from './services/signin-service';
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { SigninService } from './services/signin.service';
 import { Router, NavigationEnd } from "@angular/router";
 import { User } from './models/user';
-import { UserService } from './services/user-service';
+import { SigninModalService } from './services/signin-modal.service';
+import { UserService } from './services/user.service';
 import { MdSnackBar } from "@angular/material";
 import { Permission } from "./models/permission";
 import { Location } from "@angular/common";
-import { NgProgressService } from 'ngx-progressbar';
+import { NgProgressService } from 'ngx-progressbar';    
+
 declare const gapi: any;
 declare var jQuery: any;
 
@@ -17,23 +19,32 @@ declare var jQuery: any;
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
+
+    @ViewChild('templateModalSignIn') templateModalSignIn;
+
     constructor(private signinService: SigninService,
         private router: Router,
         private _location: Location,
         private userService: UserService,
         public snackBar: MdSnackBar,
-        private progressService: NgProgressService) {
+        private progressService: NgProgressService,
+        private siginModalService:SigninModalService) {
     }
+
 
     private user: User;
     error: string;
-    private usernameTaken: boolean;
+    private emailTaken: boolean;
+    private email: string;
     private username: string;
     private password: string;
     private permissions: Permission[];
     private gClientID: string = "1088160350239-qdg3e6j7jtlprpnukkuet4et5h3oj4j3.apps.googleusercontent.com";
     public auth2: any;
 
+    userPosts() {
+        this.router.navigate(['user-posts-list', sessionStorage["userid"]]);
+    }
 
     static isLogged(): boolean {
         return sessionStorage['username'] != null;
@@ -68,7 +79,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.user = new User();
-        this.usernameTaken = false;
+        this.emailTaken = false;
         this.permissions = [
             new Permission(1, "standard"),
             new Permission(2, "professional"),
@@ -76,7 +87,8 @@ export class AppComponent implements OnInit {
     }
 
     signIn() {
-        this.signUserIn(this.username, this.password);
+        this.signUserIn(this.email, this.password);
+        this.siginModalService.close();
     }
 
     signUp() {
@@ -91,7 +103,6 @@ export class AppComponent implements OnInit {
                 scope: 'profile email'
             });
             this.attachSignin(document.getElementById('googleSignIn'));
-            this.attachSignin(document.getElementById('googleSignUp'));
         });
     }
 
@@ -105,7 +116,7 @@ export class AppComponent implements OnInit {
                 this.userService.findByEmail(email).subscribe(
                     emailExists => {
                         if (emailExists) {
-                            this.signUserIn(username, password);
+                            this.signUserIn(email, password);
                         } else {
                             let newUser: User = new User();
                             newUser.username = username;
@@ -120,13 +131,13 @@ export class AppComponent implements OnInit {
                     }
                 );
             }, (error) => {
-                alert(JSON.stringify(error, undefined, 2));
+                alert("nao deu");
             });
     }
 
-    public signUserIn(username: string, passsword: string) {
+    public signUserIn(email: string, passsword: string) {
         this.progressService.start();
-        this.signinService.signIn(username, passsword).subscribe(
+        this.signinService.signIn(email, passsword).subscribe(
             user => {
                 this.progressService.done();
                 if (user != null) {
@@ -134,7 +145,8 @@ export class AppComponent implements OnInit {
                     sessionStorage['userid'] = user.id;
                     sessionStorage['permissionid'] = user.permission.id;
                     jQuery("#signUpModal").modal("hide");
-                    jQuery("#signInModal").modal("hide");
+                    this.siginModalService.close();
+                    
                     // document.getElementById('close-signupmodal').click();
                     // document.getElementById('close-signinmodal').click();
                     // document.getElementById('logoButton').click();
@@ -148,14 +160,18 @@ export class AppComponent implements OnInit {
         );
     }
 
+    public openModal() {
+        this.siginModalService.open();
+        this.googleInit();
+    }
 
     public signUserUp(user: User) {
         this.progressService.start();
         this.userService.insert(user).subscribe(
             data => {
-                this.snackBar.open("Usuario cadastrado com suceso", "OK");
+                this.snackBar.open("Usuario cadastrado com sucesso", "OK");
                 this.progressService.done();
-                this.signUserIn(user.username, user.password);
+                this.signUserIn(user.email, user.password);
             },
             error => {
                 this.snackBar.open("Erro: " + error._body, "OK");
@@ -165,16 +181,18 @@ export class AppComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        this.googleInit();
+        
+        this.siginModalService.template = this.templateModalSignIn;
+        
     }
 
     onBlur() {
-        this.userService.findByUsername(this.user.username).subscribe(
+        this.userService.findByEmail(this.user.email).subscribe(
             data => {
-                this.usernameTaken = true;
+                this.emailTaken = data;
             },
             error => {
-                this.usernameTaken = false;
+                this.emailTaken = false;
             }
         );
     }

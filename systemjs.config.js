@@ -13,7 +13,8 @@
 	'@angular/cdk': 'node_modules/@angular/cdk/bundles/cdk.umd.js',
         '@angular/material': 'node_modules/@angular/material/bundles/material.umd.js',
         'rxjs': 'node_modules/rxjs',
-        'ngx-progressbar': 'node_modules/ngx-progressbar/bundles/ngx-progressbar.umd.js'
+        'ngx-progressbar': 'node_modules/ngx-progressbar/bundles/ngx-progressbar.umd.js',
+        'ngx-bootstrap': 'node_modules/ngx-bootstrap/bundles/ngx-bootstrap.umd.js'
     };
 
     // mapeia os arquivos/extensões que o SystemJS deverá carregar

@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {PostService} from "../../services/post-service";
+import {PostService} from "../../services/post.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../../models/post";
 import {MdSnackBar} from "@angular/material";
@@ -9,6 +9,7 @@ import {User} from "../../models/user";
 import {Solution} from "../../models/solution";
 import {Report} from "../../models/report";
 import {NgProgressService} from 'ngx-progressbar';
+import {SigninModalService} from '../../services/signin-modal.service';
 
 @Component({
     selector: 'post-detail',
@@ -30,7 +31,8 @@ export class PostDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private postService: PostService,
         public snackBar: MdSnackBar,
-        private progressService: NgProgressService) {
+        private progressService: NgProgressService,
+        private siginModalService:SigninModalService) {
     }
 
     ngOnInit() {
@@ -67,7 +69,7 @@ export class PostDetailComponent implements OnInit {
         let comment = new PostComment();
         comment.content = this.newComment;
         comment.author = new User();
-        comment.author.username = AppComponent.loggedUsername();
+        comment.author.id = sessionStorage["userid"];
         comment.post = new Post();
         comment.post.id = this.post.id;
         this.progressService.start();
@@ -88,7 +90,7 @@ export class PostDetailComponent implements OnInit {
        let solution = new Solution();
        solution.content = this.newSolution;
        solution.author = new User();
-       solution.author.username = AppComponent.loggedUsername();
+       solution.author.id = sessionStorage["userid"];
        solution.post = new Post();
        solution.post.id = this.post.id;
        this.progressService.start();
@@ -107,10 +109,11 @@ export class PostDetailComponent implements OnInit {
 
     voteOnPost() {
         if (!this.isLogged()) {
-            this.router.navigate(['/signIn']);
+            this.siginModalService.open();
+            // this.router.navigate(['/signIn']);
         } else {
             this.progressService.start();
-            this.postService.addVote(sessionStorage['username'], this.post.id).subscribe(
+            this.postService.addVote(sessionStorage["userid"], this.post.id).subscribe(
                 data => {
                     this.progressService.done();
                     this.reloadPost();
@@ -135,7 +138,7 @@ export class PostDetailComponent implements OnInit {
         let report = new Report();
         report.description = this.newFlag;
         report.author = new User();
-        report.author.username = AppComponent.loggedUsername();
+        report.author.id = sessionStorage['userid'];
         report.post = new Post();
         report.post.id = this.post.id;
         this.progressService.start();

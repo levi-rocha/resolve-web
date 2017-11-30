@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Post} from '../models/post';
 import {Http, Headers, RequestOptions} from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import {PostComment} from "../models/post-comment";
 import {Solution} from "../models/solution";
 import {Report} from "../models/report";
@@ -68,11 +68,11 @@ export class PostService {
         return this.http.post(this.solutionsUrl, body, options).map(res => res.text());
     }
 
-    addVote(username: string, postId: number) {
+    addVote(id: number, postId: number) {
         let url = this.serviceUrl + '/vote';
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        let body = JSON.stringify({username: username, postId: postId});
+        let body = JSON.stringify({userId: id, postId: postId});
         return this.http
             .post(url, body, options)
             .map((res) => res.json())

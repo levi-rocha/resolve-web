@@ -1,0 +1,32 @@
+<div class="post-list" ng-disabled='loader.loading'>
+<md-card *ngFor="let post of listUserPosts" >
+    <md-card-header >
+            <md-card-title><h3>{{ post.title }}</h3></md-card-title>
+    </md-card-header>
+    <md-card-content>{{ post.contentPreview }}</md-card-content>
+    <md-card-actions>
+        <div class="post-actions post-likes-container">
+            <i class="material-icons md-18">thumb_up</i>
+            <div>{{post.voteCount}}</div>
+            
+        </div>
+        <div class="post-actions post-details">
+            <i class="material-icons md-18">record_voice_over</i>
+            <div>{{post.authorUsername}}</div>
+        </div>
+    </md-card-actions>
+</md-card>
+<div class="page-navigation">
+    <span class="page-navigation-left" [hidden]="page == 0">
+        <i class="material-icons" (click)="firstPage()">first_page</i>
+        <i class="material-icons" (click)="previousPage()">chevron_left</i>
+    </span>
+
+    <span class="page-navigation-center">{{page*pageSize + " - " + pageSize*(page+1)}}</span>
+
+    <span class="page-navigation-right" [hidden]="getUserPostsLength() < pageSize">
+        <i class="material-icons" (click)="nextPage()">chevron_right</i>
+    </span>
+</div>
+</div>
+
