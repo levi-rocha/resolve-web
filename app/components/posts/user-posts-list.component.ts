@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Post } from "../../models/post";
-import { PostService } from "../../services/post-service";
+import { PostService } from "../../services/post.service";
 import { UserPostsService } from "../../services/user-posts.service";
 import { NgProgressService } from "ngx-progressbar";
 
