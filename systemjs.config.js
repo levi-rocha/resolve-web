@@ -19,7 +19,7 @@
 
     // mapeia os arquivos/extensões que o SystemJS deverá carregar
     var packages = {
-        'app': {main: 'main.js', defaultExtension: 'js'},
+        'app': {main: 'main.component.js', defaultExtension: 'js'},
         'rxjs': {defaultExtension: 'js'}
     };
 
