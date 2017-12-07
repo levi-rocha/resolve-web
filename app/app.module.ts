@@ -13,6 +13,7 @@ import { AuthGuard } from "./auth-guard.component";
 import { SigninService } from "./services/signin.service";
 import { NgProgressModule } from 'ngx-progressbar';
 import { ModalModule } from 'ngx-bootstrap';
+import { SearchService } from "./services/search.service";
 
 import {
     MdButtonModule,

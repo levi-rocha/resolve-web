@@ -81,8 +81,8 @@ export class AppComponent implements OnInit {
         this.user = new User();
         this.emailTaken = false;
         this.permissions = [
-            new Permission(1, "standard"),
-            new Permission(2, "professional"),
+            new Permission(1, "Padrão"),
+            new Permission(2, "Empresa"),
         ];
     }
 
