@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "start": "node-sass app/sass -o app/css && tsc && concurrently \"tsc -w\" \"node server.js\" ",
-    "build": "node-sass app/sass -o app/css && tsc",
+    "start": "concurrently \"tsc -w\" \"node server.js\"",
+    "start-sass": "node-sass app/sass -o app/css && tsc && concurrently \"tsc -w\" \"node server.js\" ",
+    "build-sass": "node-sass app/sass -o app/css && tsc",
+    "build": "tsc",
     "dev": "concurrently \"tsc -w\" \"lite-server\"",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
