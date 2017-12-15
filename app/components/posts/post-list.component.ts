@@ -59,6 +59,12 @@ export class PostListComponent implements OnInit {
         this.refreshList();
     }
 
+    enterSearch(event: any) {
+        event.preventDefault();
+        this.page = 0;
+        this.refreshList();
+    }
+
 	onTabChange($event: any) {
         if ($event.index == 1) {
             this.criteria = PostService.POPULAR;

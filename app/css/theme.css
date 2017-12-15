@@ -1165,7 +1165,8 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placehold
 
 .mat-toolbar {
   background: whitesmoke;
-  color: rgba(0, 0, 0, 0.87); }
+  color: rgba(0, 0, 0, 0.87);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);}
   .mat-toolbar.mat-primary {
     background: white;
     color: rgb(33,150,243); }

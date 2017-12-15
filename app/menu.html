@@ -87,14 +87,10 @@
 </div>
 <ng-template #templateModalSignIn>
     <div class="modal-header">
-
-        <button type="button" class="close pull-right" aria-label="Close" (click)="siginModalService.close()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <button id="googleSignIn" class="loginBtn loginBtn--google">Login com Google</button>
         <h4 class="modal-title" id="exampleModalLabel">Entre ja!</h4>
     </div>
     <div class="modal-body">
-        <button id="googleSignIn" class="loginBtn loginBtn--google">Google</button>
         <form>
             <div class="form-group">
                 <label for="recipient-name" class="control-label">E-mail:</label>
@@ -110,7 +106,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button (click)="siginModalService.close()" type="button" class="btn btn-default" >Fechar</button>
+        <button (click)="siginModalService.close()" type="button" class="btn btn-default" >Cancelar</button>
         <button (click)="signIn()" type="button" data-dismiss="modal" class="btn btn-primary">Entrar</button>
     </div>
 </ng-template>

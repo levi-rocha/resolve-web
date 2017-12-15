@@ -2,7 +2,7 @@
     <md-tab-group (selectChange)="onTabChange($event)">
         <md-tab label="Últimos">
         </md-tab>
-        <md-tab label="Populares">
+        <md-tab label="Mais Populares">
         </md-tab>
         
     </md-tab-group>
@@ -10,7 +10,7 @@
         <div class="col-xs-9 col-md-11 no-padding">
             <md-input-container class="full-width">
                 <textarea mdInput name="content" [(ngModel)]="searchInput" placeholder="Buscar (4 ou mais caracteres)"
-                          rows="1" class="col-xs-11"></textarea>
+                    (keydown.enter)="enterSearch($event)" rows="1" class="col-xs-11"></textarea>
                           
             </md-input-container>
         </div>

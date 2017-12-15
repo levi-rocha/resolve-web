@@ -19,6 +19,7 @@ div.page-navigation {
     text-align: center;
     position: relative;
     font-size: large;
+    margin-top: 12px;
 }
 
 div.report-list md-card {
@@ -131,8 +132,6 @@ md-tab-group, md-tab-group div {
     line-height: 32px;
 }
 
-
-
 md-list-item {
     padding: auto;
 }
@@ -191,8 +190,8 @@ md-card-content h4 {
 }
 
 .post-list md-card {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 16px;
+    border-radius: 4px;
 }
 
 .post-list md-card.mat-card {
@@ -353,6 +352,7 @@ img.displayed{
   .loginBtn--google {
     /*font-family: "Roboto", Roboto, arial, sans-serif;*/
     background: #DD4B39;
+    float: right;
   }
   .loginBtn--google:before {
     border-right: #BB3F30 1px solid;
